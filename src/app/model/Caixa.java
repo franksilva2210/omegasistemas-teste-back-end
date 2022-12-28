@@ -45,4 +45,10 @@ public class Caixa {
 		System.out.println("Descricao: " + descricao);
 		System.out.println("Valor Inicial: " + valInicial);
 	}
+	
+	public void clear() {
+		this.id = 0;
+		this.descricao = "";
+		this.valInicial = 0.0;
+	}
 }

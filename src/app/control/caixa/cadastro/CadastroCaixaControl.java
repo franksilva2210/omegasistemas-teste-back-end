@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import app.control.msg.info.MensagemInfoControl;
+import app.db.dao.CaixaDao;
 import app.model.Caixa;
 import app.util.ScreensRegisterControl;
 import app.util.ValidaField;
-import app.util.db.CaixaDao;
 import app.util.db.ModPersistData;
+import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.caixa.cadastro.CadastroCaixaView;
 import app.view.msg.info.MensagemInfoView;
 import app.view.principal.PrincipalView;
@@ -47,6 +48,12 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 			}
 		});
 		
+		bttBuscar.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				bttBuscar();
+			}
+		});
+		
 		bttCancel.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				CadastroCaixaView.getStage().close();
@@ -54,19 +61,28 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 		});
 	}
 
+	/*BOTAO SALVAR*/
 	private void bttSalvar() {
 		if(!processDataInterface())
 			return;
 		
+		processDataPersistence();
+		
+		clearDataScreen();
+		resetProperties();
+	}
+	
+	/*BOTAO BUSCAR*/
+	private void bttBuscar() {
+		BuscarCaixaView.buildAndShowScreen(CadastroCaixaView.getStage());
 	}
 
 	@Override
 	protected boolean processDataInterface() {
-		if(validateFields()) {
-			extractFields();
+		if(!validateFields() || !extractFields()) {
+			return false;
+		} else 
 			return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -99,7 +115,6 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	
 	@Override
 	protected boolean validateFields() {
-		
 		if(!validateFieldDescricao() || !validateFieldValInicial()) {
 			return false;
 		} else 
@@ -107,18 +122,20 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	}
 	
 	@Override
-	protected void extractFields() {
+	protected boolean extractFields() {
 	
 		caixaAtual.setDescricao(textDescricao.getText());
 		
 		try {
 			caixaAtual.setValInicial(Double.parseDouble(textValInicial.getText()));
 		} catch(NumberFormatException e) {
-				MensagemInfoControl.setMsg("Campo: Valor Inicial: Nao e possivel a insercao de\n");
-				MensagemInfoControl.setMsg(MensagemInfoControl.getMsg() + "letras ou outros caracteres nao numericos");
-				MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
+			MensagemInfoControl.setMsg("Campo: Valor Inicial: Nao e possivel a insercao de\n");
+			MensagemInfoControl.setMsg(MensagemInfoControl.getMsg() + "letras ou outros caracteres nao numericos");
+			MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
+			return false;
 		}
 		
+		return true;
 	}
 
 	@Override
@@ -129,12 +146,17 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 
 	@Override
 	protected void clearDataScreen() {
-		// TODO Auto-generated method stub
-		
+		textDescricao.clear();
+		textValInicial.clear();
 	}
 	
 	private void initProperties() {
 		caixaAtual = new Caixa();
+		modPersistData = ModPersistData.NEW;
+	}
+	
+	private void resetProperties() {
+		caixaAtual.clear();
 		modPersistData = ModPersistData.NEW;
 	}
 

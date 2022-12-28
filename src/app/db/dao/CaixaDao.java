@@ -1,4 +1,4 @@
-package app.util.db;
+package app.db.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import app.model.Caixa;
+import app.util.db.Conexao;
+import app.util.db.Dao;
 
 public class CaixaDao implements Dao<Caixa> {
 
