@@ -10,11 +10,12 @@ import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.movimentacaocaixa.MovimentacaoCaixaView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
@@ -24,14 +25,13 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	
 	private Movimentacao movimento;
 	
+	@FXML private DatePicker datePicker;
+	@FXML private TextField txtCaixa;
 	@FXML private Button bttBuscarCaixa;
-	@FXML private Label lblNomeCaixa;
-    @FXML private Label lblValSaldoAtual;
-    @FXML private TextField txtData;
     @FXML private TextField txtDescricao;
     @FXML private ChoiceBox<String> choiceTipo;
     @FXML private TextField txtValor;
-    
+    @FXML private Button bttSalvar;
     @FXML private Button bttCancel;
 	
     @Override
@@ -45,6 +45,11 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 				bttBuscarCaixa();
 			}
 		});
+    	
+    	datePicker.setOnAction((ActionEvent event) -> {
+    		metodo(datePicker);
+    	});
+    	
 	}
     
     /*BOTAO BUSCAR CAIXA*/
@@ -79,7 +84,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	@Override
 	protected boolean extractFields() {
 		
-		movimento.setData(txtData.getText());
+		movimento.setData("");
 		movimento.setDescricao(txtDescricao.getText());
 		movimento.setTipo(choiceTipo.getValue());
 		movimento.setValor(Double.parseDouble(txtValor.getText()));
@@ -95,8 +100,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected void showDataScreen() {
-		lblNomeCaixa.setText(movimento.getCaixa().getDescricao());
-		lblValSaldoAtual.setText(String.valueOf(movimento.getCaixa().getSaldoInicial()));
+		txtCaixa.setText(movimento.getCaixa().getDescricao());
 	}
 
 	@Override
@@ -107,5 +111,11 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	
 	private void initializeProperties() {
 		movimento = new Movimentacao();
+	}
+	
+	//UTILITARIOS -----------------------------
+	
+	private void metodo(DatePicker datePicker) {
+		
 	}
 }
