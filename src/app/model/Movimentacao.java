@@ -6,20 +6,20 @@ public class Movimentacao {
 	private String data;
 	private String tipo;
 	private Caixa caixa;
-	private String descrica;
+	private String descricao;
 	private Double valor;
 	
 	public Movimentacao() {
 		
 	}
 	
-	public Movimentacao(int id, String data, String tipo, Caixa caixa, String descrica, Double valor) {
+	public Movimentacao(int id, String data, String tipo, Caixa caixa, String desc, Double valor) {
 		super();
 		this.id = id;
 		this.data = data;
 		this.tipo = tipo;
 		this.caixa = caixa;
-		this.descrica = descrica;
+		this.descricao = desc;
 		this.valor = valor;
 	}
 
@@ -55,12 +55,12 @@ public class Movimentacao {
 		this.caixa = caixa;
 	}
 	
-	public String getDescrica() {
-		return descrica;
+	public String getDescricao() {
+		return descricao;
 	}
 	
-	public void setDescrica(String descrica) {
-		this.descrica = descrica;
+	public void setDescricao(String desc) {
+		this.descricao = desc;
 	}
 	
 	public Double getValor() {
@@ -71,4 +71,12 @@ public class Movimentacao {
 		this.valor = valor;
 	}
 	
+	public void printDataConsole() {
+		System.out.println("ID: " + id);
+		System.out.println("Data: " + data);
+		System.out.println("Tipo: " + tipo);
+		System.out.println("Id Caixa: " + caixa.getId());
+		System.out.println("Descrição: " + descricao);
+		System.out.println("Valor: " + valor);
+	}
 }
