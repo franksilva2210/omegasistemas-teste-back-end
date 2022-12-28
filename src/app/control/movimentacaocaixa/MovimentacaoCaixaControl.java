@@ -4,10 +4,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
+import app.control.msg.info.MensagemInfoControl;
 import app.model.Movimentacao;
 import app.util.ScreensRegisterControl;
+import app.util.ValidaField;
 import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.movimentacaocaixa.MovimentacaoCaixaView;
+import app.view.msg.info.MensagemInfoView;
+import app.view.principal.PrincipalView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,8 +50,14 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 			}
 		});
     	
+    	bttSalvar.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				bttSalvarMovimento();
+			}
+		});
+    	
     	datePicker.setOnAction((ActionEvent event) -> {
-    		metodo(datePicker);
+    		
     	});
     	
 	}
@@ -61,6 +71,12 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     		movimento.setCaixa(BuscarCaixaControl.getCaixaSelected());
     		showDataScreen();
     	}
+    }
+    
+    /*BOTAO SALVAR*/
+    private void bttSalvarMovimento() {
+    	extractFields();
+    	
     }
     
     @Override
@@ -83,13 +99,17 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	
 	@Override
 	protected boolean extractFields() {
-		
-		movimento.setData("");
+		movimento.setData(getDataConvertida());
 		movimento.setDescricao(txtDescricao.getText());
 		movimento.setTipo(choiceTipo.getValue());
-		movimento.setValor(Double.parseDouble(txtValor.getText()));
 		
-		return false;
+		try {
+			movimento.setValor(Double.parseDouble(txtValor.getText()));
+		} catch(NumberFormatException e) {
+			movimento.setValor(0.0);
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -113,9 +133,34 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		movimento = new Movimentacao();
 	}
 	
+	//PROPRIEDADES ---------------------------
+	
+	//COMPONENTES GRAFICOS -----------------------------
+	private boolean validateFieldValInicial() {
+		ValidaField validField = new ValidaField();
+		validField.setControl(txtCaixa);
+		
+		validField.validateControl();
+		if(validField.getError()) {
+			MensagemInfoControl.setMsg("Campo: Caixa, Invalido!");
+			MensagemInfoView.loadAndShowStage(PrincipalView.getStage());
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	//UTILITARIOS -----------------------------
 	
-	private void metodo(DatePicker datePicker) {
+	private String getDataConvertida() {
+		String data = new String();
 		
+		int dia = datePicker.getValue().getDayOfMonth();
+		int mes = datePicker.getValue().getMonth().getValue();
+		int ano = datePicker.getValue().getYear();
+		
+		data = dia + "/" + mes + "/" + ano;
+		
+		return data;
 	}
 }
