@@ -3,17 +3,17 @@ package app.model;
 public class Caixa {
 	private int id;
 	private String descricao;
-	private double valInicial;
+	private double saldoInicial;
 	
 	public Caixa() {
 		
 	}
 	
-	public Caixa(Integer id, String descricao, double valInicial) {
+	public Caixa(Integer id, String descricao, double saldoInicial) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
-		this.valInicial = valInicial;
+		this.saldoInicial = saldoInicial;
 	}
 
 	public int getId() {
@@ -32,23 +32,23 @@ public class Caixa {
 		this.descricao = descricao;
 	}
 
-	public double getValInicial() {
-		return valInicial;
+	public double getSaldoInicial() {
+		return saldoInicial;
 	}
 
-	public void setValInicial(double valInicial) {
-		this.valInicial = valInicial;
+	public void setSaldoInicial(double valInicial) {
+		this.saldoInicial = valInicial;
 	}
 	
 	public void printDataConsole() {
 		System.out.println("Id: " + id);
 		System.out.println("Descricao: " + descricao);
-		System.out.println("Valor Inicial: " + valInicial);
+		System.out.println("Valor Inicial: " + saldoInicial);
 	}
 	
 	public void clear() {
 		this.id = 0;
 		this.descricao = "";
-		this.valInicial = 0.0;
+		this.saldoInicial = 0.0;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import app.control.caixa.buscar.BuscarCaixaControl;
 import app.control.msg.info.MensagemInfoControl;
 import app.db.dao.CaixaDao;
 import app.model.Caixa;
@@ -74,7 +75,14 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	
 	/*BOTAO BUSCAR*/
 	private void bttBuscar() {
+		BuscarCaixaControl.setCaixaSelected(null);
 		BuscarCaixaView.buildAndShowScreen(CadastroCaixaView.getStage());
+		
+		if(BuscarCaixaControl.getCaixaSelected() != null) {
+			caixaAtual = BuscarCaixaControl.getCaixaSelected();
+			modPersistData = ModPersistData.UPDATE;
+			showDataScreen();
+		}
 	}
 
 	@Override
@@ -127,7 +135,7 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 		caixaAtual.setDescricao(textDescricao.getText());
 		
 		try {
-			caixaAtual.setValInicial(Double.parseDouble(textValInicial.getText()));
+			caixaAtual.setSaldoInicial(Double.parseDouble(textValInicial.getText()));
 		} catch(NumberFormatException e) {
 			MensagemInfoControl.setMsg("Campo: Valor Inicial: Nao e possivel a insercao de\n");
 			MensagemInfoControl.setMsg(MensagemInfoControl.getMsg() + "letras ou outros caracteres nao numericos");
@@ -140,8 +148,8 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 
 	@Override
 	protected void showDataScreen() {
-		// TODO Auto-generated method stub
-		
+		textDescricao.setText(caixaAtual.getDescricao());
+		textValInicial.setText(String.valueOf(caixaAtual.getSaldoInicial()));
 	}
 
 	@Override

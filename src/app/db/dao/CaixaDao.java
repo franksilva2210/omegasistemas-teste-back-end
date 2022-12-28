@@ -2,7 +2,10 @@ package app.db.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import app.model.Caixa;
@@ -13,8 +16,46 @@ public class CaixaDao implements Dao<Caixa> {
 
 	@Override
 	public List<Caixa> consultAll() {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conexao = null;
+		Statement stmt = null;
+		ResultSet result = null;
+		
+		List<Caixa> listCaixa = new ArrayList<Caixa>();
+		
+		String sql =  "SELECT * FROM caixa ORDER BY descricao";
+		
+		try {
+			conexao = Conexao.getConnection("controlecaixa");
+			
+			stmt = conexao.createStatement();
+			
+			result = stmt.executeQuery(sql);
+			while(result.next()) {
+				Caixa caixa = new Caixa();
+				
+				caixa.setId(result.getInt("idcaixa"));
+				caixa.setDescricao(result.getString("descricao"));
+				caixa.setSaldoInicial(result.getDouble("saldoInicial"));
+				
+				listCaixa.add(caixa);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(conexao != null)
+					conexao.close();
+				if(stmt != null)
+					stmt.close();
+				if(result != null)
+					result.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return listCaixa;
 	}
 
 	@Override
@@ -31,7 +72,7 @@ public class CaixaDao implements Dao<Caixa> {
 			
 			pstmt = conexao.prepareStatement(sql);
 			pstmt.setString(1, ob.getDescricao());
-			pstmt.setDouble(2, ob.getValInicial());
+			pstmt.setDouble(2, ob.getSaldoInicial());
 			pstmt.execute();
 			
 		} catch (SQLException e) {
