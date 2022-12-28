@@ -153,11 +153,11 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		
 	}
 	
+	//PROPRIEDADES ---------------------------
+
 	private void initializeProperties() {
 		movimento = new Movimentacao();
 	}
-	
-	//PROPRIEDADES ---------------------------
 	
 	//COMPONENTES GRAFICOS -----------------------------
 	

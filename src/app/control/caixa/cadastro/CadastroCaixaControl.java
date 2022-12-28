@@ -1,8 +1,6 @@
 package app.control.caixa.cadastro;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
@@ -18,14 +16,12 @@ import app.view.msg.info.MensagemInfoView;
 import app.view.principal.PrincipalView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 public class CadastroCaixaControl extends ScreensRegisterControl implements Initializable {
 
-	private List<Node> camposObrigatorios = new ArrayList<Node>();
 	private Caixa caixaAtual;
 	private ModPersistData modPersistData;
 	
@@ -41,9 +37,6 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initProperties();
-		
-		camposObrigatorios.add(textDescricao);
-		camposObrigatorios.add(textValInicial);
 		
 		bttNovo.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
@@ -145,7 +138,6 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	
 	@Override
 	protected boolean extractFields() {
-	
 		caixaAtual.setDescricao(textDescricao.getText());
 		
 		try {
