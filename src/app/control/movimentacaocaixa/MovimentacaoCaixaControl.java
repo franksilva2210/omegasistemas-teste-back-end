@@ -8,6 +8,7 @@ import app.control.msg.info.MensagemInfoControl;
 import app.model.Movimentacao;
 import app.util.ScreensRegisterControl;
 import app.util.ValidaField;
+import app.util.db.ModPersistData;
 import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.movimentacaocaixa.MovimentacaoCaixaView;
 import app.view.msg.info.MensagemInfoView;
@@ -27,6 +28,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	final private ObservableList<String> opcoesTipoMov = FXCollections.observableArrayList("Entrada", "Saida");
 	
 	private Movimentacao movimento;
+	private ModPersistData modPersistData;
 	
 	@FXML private DatePicker datePicker;
 	@FXML private TextField txtCaixa;
@@ -84,6 +86,10 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     	if(!processDataInterface())
     		return;
     	
+    	processDataPersistence();
+    	
+    	clearDataScreen();
+    	
     }
     
     @Override
@@ -104,8 +110,21 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected void processDataPersistence() {
-		// TODO Auto-generated method stub
 		
+		
+		switch(modPersistData) {
+			case NEW:
+				break;
+			
+			case UPDATE:
+				break;
+				
+			case DELET:
+				break;
+				
+			default:
+				break;
+		}
 	}
 	
 	@Override
@@ -157,6 +176,12 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	private void initializeProperties() {
 		movimento = new Movimentacao();
+		modPersistData = ModPersistData.NEW;
+	}
+	
+	private void resetProperties() {
+		movimento.clear();
+		modPersistData = ModPersistData.NEW;
 	}
 	
 	//COMPONENTES GRAFICOS -----------------------------

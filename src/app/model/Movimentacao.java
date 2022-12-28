@@ -79,4 +79,13 @@ public class Movimentacao {
 		System.out.println("Descrição: " + descricao);
 		System.out.println("Valor: " + valor);
 	}
+	
+	public void clear() {
+		this.id = 0;
+		this.data = "";
+		this.tipo = "";
+		this.caixa.clear();
+		this.descricao = "";
+		this.valor = 0.0;
+	}
 }

@@ -1,6 +1,7 @@
 package app.model;
 
 public class Caixa {
+	
 	private int id;
 	private String descricao;
 	private double saldoInicial;
