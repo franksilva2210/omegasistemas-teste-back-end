@@ -91,8 +91,35 @@ public class CaixaDao implements Dao<Caixa> {
 
 	@Override
 	public void update(Caixa ob) {
-		// TODO Auto-generated method stub
+		Connection conexao = null;
+		PreparedStatement pstmt = null;
+
+		String sql = "UPDATE caixa "
+				   + "SET descricao = ?, saldoInicial = ? "
+				   + "WHERE idcaixa = ?";
 		
+		try {
+			conexao = Conexao.getConnection("controlecaixa");
+			
+			pstmt = conexao.prepareStatement(sql);
+			
+			pstmt.setString(1, ob.getDescricao());
+			pstmt.setDouble(2, ob.getSaldoInicial());
+			pstmt.setInt(3, ob.getId());
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+        	try {
+        		if(conexao != null)
+        			conexao.close();
+        		if(pstmt != null)
+        			pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override

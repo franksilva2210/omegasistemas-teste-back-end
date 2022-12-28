@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
 import app.control.msg.info.MensagemInfoControl;
+import app.db.dao.MovimentacaoDao;
 import app.model.Movimentacao;
 import app.util.ScreensRegisterControl;
 import app.util.ValidaField;
@@ -82,14 +83,13 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     
     /*BOTAO SALVAR*/
     private void bttSalvarMovimento() {
-    	
     	if(!processDataInterface())
     		return;
     	
     	processDataPersistence();
     	
     	clearDataScreen();
-    	
+    	resetProperties();
     }
     
     @Override
@@ -110,16 +110,19 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected void processDataPersistence() {
-		
+		MovimentacaoDao movimentacaoDao = new MovimentacaoDao();
 		
 		switch(modPersistData) {
 			case NEW:
+				movimentacaoDao.save(movimento);
 				break;
 			
 			case UPDATE:
+				movimentacaoDao.update(movimento);
 				break;
 				
 			case DELET:
+				movimentacaoDao.delete(movimento);
 				break;
 				
 			default:
