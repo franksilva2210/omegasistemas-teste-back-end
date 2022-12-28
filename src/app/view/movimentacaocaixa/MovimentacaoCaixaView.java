@@ -1,16 +1,15 @@
-package app.view.caixa.buscar;
+package app.view.movimentacaocaixa;
 
 import java.io.IOException;
 
-import app.control.caixa.buscar.BuscarCaixaControl;
+import app.control.movimentacaocaixa.MovimentacaoCaixaControl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class BuscarCaixaView {
-	
+public class MovimentacaoCaixaView {
 	private static Stage stage;
 	private static Scene scene;
 	private static Parent root;
@@ -20,7 +19,7 @@ public class BuscarCaixaView {
 	}
 	
 	public static void setStage(Stage stage) {
-		BuscarCaixaView.stage = stage;
+		MovimentacaoCaixaView.stage = stage;
 	}
 	
 	public static Scene getScene() {
@@ -28,7 +27,7 @@ public class BuscarCaixaView {
 	}
 	
 	public static void setScene(Scene scene) {
-		BuscarCaixaView.scene = scene;
+		MovimentacaoCaixaView.scene = scene;
 	}
 	
 	public static Parent getRoot() {
@@ -36,7 +35,7 @@ public class BuscarCaixaView {
 	}
 	
 	public static void setRoot(Parent root) {
-		BuscarCaixaView.root = root;
+		MovimentacaoCaixaView.root = root;
 	}
 	
 	//----------|CONSTROI E EXIBE TELA|----------
@@ -59,8 +58,8 @@ public class BuscarCaixaView {
 	
 	private static void buildRoot() {
 		FXMLLoader rootFxml = new FXMLLoader();
-		rootFxml.setLocation(BuscarCaixaView.class.getResource("BuscarCaixaView.fxml"));
-		rootFxml.setController(new BuscarCaixaControl());
+		rootFxml.setLocation(MovimentacaoCaixaView.class.getResource("MovimentacaoCaixaView.fxml"));
+		rootFxml.setController(new MovimentacaoCaixaControl());
 		
 		try {
 			root = rootFxml.load();
@@ -75,7 +74,7 @@ public class BuscarCaixaView {
 	
 	private static void buildStage(Stage stageOwner) {
 		stage = new Stage();
-		stage.setTitle("Buscar Caixa");
+		stage.setTitle("Movimentação de Caixa");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(stageOwner);
 		stage.setScene(scene);

@@ -29,8 +29,10 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	private Caixa caixaAtual;
 	private ModPersistData modPersistData;
 	
+	@FXML private Button bttNovo;
 	@FXML private Button bttBuscar;
     @FXML private Button bttRemover;
+    @FXML private TextField textCodId;
     @FXML private TextField textDescricao;
     @FXML private TextField textValInicial;
     @FXML private Button bttSalvar;
@@ -43,9 +45,9 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 		camposObrigatorios.add(textDescricao);
 		camposObrigatorios.add(textValInicial);
 		
-		bttSalvar.setOnMouseClicked((MouseEvent mouse) -> {
+		bttNovo.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				bttSalvar();
+				bttNovo();
 			}
 		});
 		
@@ -55,11 +57,23 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 			}
 		});
 		
+		bttSalvar.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				bttSalvar();
+			}
+		});
+		
 		bttCancel.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				CadastroCaixaView.getStage().close();
 			}
 		});
+	}
+	
+	/*BOTAO NOVO*/
+	private void bttNovo() {
+		resetProperties();
+		clearDataScreen();
 	}
 
 	/*BOTAO SALVAR*/
@@ -148,12 +162,14 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 
 	@Override
 	protected void showDataScreen() {
+		textCodId.setText(String.valueOf(caixaAtual.getId()));
 		textDescricao.setText(caixaAtual.getDescricao());
 		textValInicial.setText(String.valueOf(caixaAtual.getSaldoInicial()));
 	}
 
 	@Override
 	protected void clearDataScreen() {
+		textCodId.clear();
 		textDescricao.clear();
 		textValInicial.clear();
 	}
