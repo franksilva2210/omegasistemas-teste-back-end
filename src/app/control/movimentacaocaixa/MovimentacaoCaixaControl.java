@@ -19,6 +19,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	private Caixa caixaAtual;
 	
 	@FXML private Button bttBuscarCaixa;
+	@FXML private Label lblNomeCaixa;
     @FXML private Label lblValSaldoAtual;
     @FXML private Button bttEntrada;
     @FXML private Button bttSaida;
@@ -66,8 +67,8 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected void showDataScreen() {
+		lblNomeCaixa.setText(caixaAtual.getDescricao());
 		lblValSaldoAtual.setText(String.valueOf(caixaAtual.getSaldoInicial()));
-		
 	}
 
 	@Override

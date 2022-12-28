@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="331.0" prefWidth="558.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane prefHeight="331.0" prefWidth="558.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="131.0" layoutY="32.0" prefHeight="361.0" prefWidth="590.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -24,7 +23,24 @@
             </HBox>
             <VBox prefHeight="271.0" prefWidth="558.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="590.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="558.0">
+                     <children>
+                        <Label text="Caixa:">
+                           <HBox.margin>
+                              <Insets left="12.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblNomeCaixa" text="NomeCaixa">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="558.0">
                      <children>
                         <Label text="Saldo Atual:">
                            <HBox.margin>
@@ -34,14 +50,17 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblValSaldoAtual" text="Saldo">
+                        <Label fx:id="lblValSaldoAtual" text="ValorSaldo">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
                         </Label>
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="258.0" prefWidth="558.0">
+                  <HBox prefHeight="193.0" prefWidth="558.0" style="-fx-border-color: #cccccc;">
                      <children>
                         <VBox prefHeight="206.0" prefWidth="279.0">
                            <children>
@@ -49,7 +68,7 @@
                                  <children>
                                     <Button fx:id="bttEntrada" mnemonicParsing="false" text="Entrada">
                                        <HBox.margin>
-                                          <Insets left="5.0" />
+                                          <Insets left="10.0" />
                                        </HBox.margin>
                                     </Button>
                                  </children>
@@ -70,6 +89,9 @@
                            </children>
                         </VBox>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>
