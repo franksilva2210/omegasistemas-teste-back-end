@@ -1,8 +1,6 @@
 package app.control.movimentacaocaixa;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
@@ -18,7 +16,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -27,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 
 public class MovimentacaoCaixaControl extends ScreensRegisterControl implements Initializable {
 	
-	private List<Node> camposObrigatorios = new ArrayList<Node>();
 	final private ObservableList<String> opcoesTipoMov = FXCollections.observableArrayList("Entrada", "Saida");
 	
 	private Movimentacao movimento;
@@ -44,12 +40,6 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
     	initializeProperties();
-    	
-    	camposObrigatorios.add(datePicker);
-    	camposObrigatorios.add(txtCaixa);
-    	camposObrigatorios.add(txtDescricao);
-    	camposObrigatorios.add(choiceTipo);
-    	camposObrigatorios.add(txtValor);
     	
     	choiceTipo.setItems(opcoesTipoMov);
     	
@@ -69,6 +59,12 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     		
     	});
     	
+    	bttCancel.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				MovimentacaoCaixaView.getStage().close();
+			}
+		});
+    	
 	}
     
     /*BOTAO BUSCAR CAIXA*/
@@ -85,18 +81,19 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     /*BOTAO SALVAR*/
     private void bttSalvarMovimento() {
     	
-    	System.out.println(validateFields());
-    	if(!validateFields()) {
-    		MensagemInfoControl.setMsg(getCampoVazio().getId());
-    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
-    	}
+    	if(!processDataInterface())
+    		return;
     	
     }
     
     @Override
 	protected boolean processDataInterface() {
-		// TODO Auto-generated method stub
-		return false;
+    	if(!validateFields())
+    		return false;
+    	else if(!extractFields())
+    		return false;
+    	else
+    		return true;
 	}
 
 	@Override
@@ -121,6 +118,9 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 			movimento.setValor(Double.parseDouble(txtValor.getText()));
 		} catch(NumberFormatException e) {
 			movimento.setValor(0.0);
+			MensagemInfoControl.setMsg("Nao e permitido o uso de caracteres\nnao numericos");
+    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
+			return false;
 		}
 		
 		return true;
@@ -128,12 +128,18 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected boolean validateFields() {
-		for(int i = 0; i < camposObrigatorios.size(); i++) {
-			if(validateControl(camposObrigatorios.get(i))) {
-				return false;
-			}
-		}
-		return true;
+		if(!validaFieldCaixa())
+			return false;
+		else if(!validaFieldData())
+			return false;
+		else if(!validaFieldDescricao())
+			return false;
+		else if(!validaFieldTipo())
+			return false;
+		else if(!validaFieldValor())
+			return false;
+		else
+			return true;
 	}
 
 	@Override
@@ -155,7 +161,75 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	
 	//COMPONENTES GRAFICOS -----------------------------
 	
+	private boolean validaFieldCaixa() {
+		ValidaField validField = new ValidaField();
+		validField.setControl(txtCaixa);
+		
+		validField.validateControl();
+		if(validField.getError()) {
+			MensagemInfoControl.setMsg("Campo Caixa, invalido");
+    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
+	private boolean validaFieldData() {
+		ValidaField validField = new ValidaField();
+		validField.setControl(datePicker);
+		
+		validField.validateControl();
+		if(validField.getError()) {
+			MensagemInfoControl.setMsg("Campo Data, invalido");
+    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean validaFieldDescricao() {
+		ValidaField validField = new ValidaField();
+		validField.setControl(txtDescricao);
+		
+		validField.validateControl();
+		if(validField.getError()) {
+			MensagemInfoControl.setMsg("Campo Descrição, invalido");
+    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean validaFieldTipo() {
+		ValidaField validField = new ValidaField();
+		validField.setControl(choiceTipo);
+		
+		validField.validateControl();
+		if(validField.getError()) {
+			MensagemInfoControl.setMsg("Campo Tipo, invalido");
+    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean validaFieldValor() {
+		ValidaField validField = new ValidaField();
+		validField.setControl(txtValor);
+		
+		validField.validateControl();
+		if(validField.getError()) {
+			MensagemInfoControl.setMsg("Campo Valor, invalido");
+    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 	//UTILITARIOS -----------------------------
 	
@@ -171,24 +245,5 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		return data;
 	}
 	
-	private boolean validateControl(Node control) {
-		ValidaField validField = new ValidaField();
-		validField.setControl(control);
-		
-		validField.validateControl();
-		if(validField.getError()) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 	
-	private Node getCampoVazio() {
-		for(int i = 0; i < camposObrigatorios.size(); i++) {
-			if(validateControl(camposObrigatorios.get(i))) {
-				return camposObrigatorios.get(i);
-			}
-		}
-		return null;
-	}
 }
