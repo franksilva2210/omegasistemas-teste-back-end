@@ -41,7 +41,7 @@ public class MensagemInfoView {
 	
 	public static void loadAndShowStage(Stage stageOwner) {
 		FXMLLoader rootFxml = new FXMLLoader();
-		rootFxml.setLocation(MensagemInfoView.class.getResource("ScreenView.fxml"));
+		rootFxml.setLocation(MensagemInfoView.class.getResource("MensagemInfoView.fxml"));
 		rootFxml.setController(new MensagemInfoControl());
 		
 		root = null;
@@ -53,7 +53,7 @@ public class MensagemInfoView {
 		
 		scene = new Scene(root);
 		
-		stage = stageOwner;
+		stage = new Stage();
 		stage.setTitle("Mensagem Informativa");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(stageOwner);

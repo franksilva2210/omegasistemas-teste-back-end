@@ -12,7 +12,7 @@ public abstract class ScreensRegisterControl {
 	
 	abstract protected void processDataPersistence();
 	
-	abstract protected boolean extractFields();
+	abstract protected void extractFields();
 	
 	abstract protected boolean validateFields();
 }

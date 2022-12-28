@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import app.control.msg.info.MensagemInfoControl;
 import app.model.Caixa;
 import app.util.ScreensRegisterControl;
+import app.util.ValidaField;
+import app.view.caixa.cadastro.CadastroCaixaView;
+import app.view.msg.info.MensagemInfoView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -18,7 +22,7 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 
 	List<Node> camposObrigatorios = new ArrayList<Node>();
 	
-	private Caixa caixaAtual;
+	private Caixa caixaAtual = new Caixa();
 	
 	@FXML private Button bttBuscar;
     @FXML private Button bttRemover;
@@ -38,15 +42,27 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 				bttSalvar();
 			}
 		});
+		
+		bttCancel.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				CadastroCaixaView.getStage().close();
+			}
+		});
 	}
 
 	private void bttSalvar() {
+		if(processDataInterface() == false)
+			return;
 		
+		caixaAtual.printDataConsole();
 	}
 
 	@Override
 	protected boolean processDataInterface() {
-		// TODO Auto-generated method stub
+		if(validateFields()) {
+			extractFields();
+			return true;
+		}
 		return false;
 	}
 
@@ -63,23 +79,34 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	}
 	
 	@Override
-	protected boolean extractFields() {
+	protected boolean validateFields() {
+		ValidaField validField = new ValidaField();
+		for(int i = 0; i < camposObrigatorios.size(); i++) {
+			validField.setControl(camposObrigatorios.get(i));
+			validField.validateControl();
+			if(validField.getError()) {
+				MensagemInfoControl.setMsg(camposObrigatorios.get(i).getId());//Por enquanto mensagem não tratada
+				MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
+				return false;
+			}
+			validField.clear();
+		}
+		return true;
+	}
+	
+	@Override
+	protected void extractFields() {
 	
 		caixaAtual.setDescricao(textDescricao.getText());
-		caixaAtual.setValInicial(Double.valueOf(textValInicial.getText()));
 		
-		
-		return false;
-	}
-
-	@Override
-	protected boolean validateFields() {
-		
-		for(int i = 0; i < camposObrigatorios.size(); i++) {
-			
+		try {
+			caixaAtual.setValInicial(Double.parseDouble(textValInicial.getText()));
+		} catch(NumberFormatException e) {
+				MensagemInfoControl.setMsg("Campo: Valor Inicial: Nao e possivel a insercao de\n");
+				MensagemInfoControl.setMsg(MensagemInfoControl.getMsg() + "letras ou outros caracteres nao numericos");
+				MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
 		}
 		
-		return false;
 	}
 
 	@Override

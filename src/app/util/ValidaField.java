@@ -1,6 +1,7 @@
 package app.util;
 
 import javafx.scene.Node;
+import javafx.scene.control.TextInputControl;
 
 public class ValidaField {
 	
@@ -23,7 +24,21 @@ public class ValidaField {
 		this.error = error;
 	}
 
-	public static boolean validateControl(Node control) {
-		return false;
-	}
+	public void validateControl() {
+        if(control instanceof TextInputControl)
+            validateTextInputField();
+    }
+
+    private void validateTextInputField() {
+        TextInputControl textField = (TextInputControl) control;
+        if (textField.getText() == null || textField.getText().equals(""))
+        	error = true;
+        else
+        	error = false;
+    }
+    
+    public void clear() {
+    	control = null;
+    	error = null;
+    }
 }

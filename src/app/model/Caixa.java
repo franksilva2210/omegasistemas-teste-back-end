@@ -1,40 +1,48 @@
 package app.model;
 
 public class Caixa {
-	private Integer id;
+	private int id;
 	private String descricao;
-	private Double valInicial;
+	private double valInicial;
 	
-	public Caixa(Integer id, String descricao, Double valInicial) {
+	public Caixa() {
+		
+	}
+	
+	public Caixa(Integer id, String descricao, double valInicial) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 		this.valInicial = valInicial;
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	
-	public void setId(Integer id) {
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getDescricao() {
 		return descricao;
 	}
-	
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	public Double getValInicial() {
+
+	public double getValInicial() {
 		return valInicial;
 	}
-	
-	public void setValInicial(Double valInicial) {
+
+	public void setValInicial(double valInicial) {
 		this.valInicial = valInicial;
 	}
 	
-	
+	public void printDataConsole() {
+		System.out.println("Id: " + id);
+		System.out.println("Descricao: " + descricao);
+		System.out.println("Valor Inicial: " + valInicial);
+	}
 }
