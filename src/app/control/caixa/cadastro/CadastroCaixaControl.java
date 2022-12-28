@@ -9,8 +9,11 @@ import app.control.msg.info.MensagemInfoControl;
 import app.model.Caixa;
 import app.util.ScreensRegisterControl;
 import app.util.ValidaField;
+import app.util.db.CaixaDao;
+import app.util.db.ModPersistData;
 import app.view.caixa.cadastro.CadastroCaixaView;
 import app.view.msg.info.MensagemInfoView;
+import app.view.principal.PrincipalView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -20,9 +23,9 @@ import javafx.scene.input.MouseEvent;
 
 public class CadastroCaixaControl extends ScreensRegisterControl implements Initializable {
 
-	List<Node> camposObrigatorios = new ArrayList<Node>();
-	
-	private Caixa caixaAtual = new Caixa();
+	private List<Node> camposObrigatorios = new ArrayList<Node>();
+	private Caixa caixaAtual;
+	private ModPersistData modPersistData;
 	
 	@FXML private Button bttBuscar;
     @FXML private Button bttRemover;
@@ -33,6 +36,7 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		initProperties();
 		
 		camposObrigatorios.add(textDescricao);
 		camposObrigatorios.add(textValInicial);
@@ -51,10 +55,9 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	}
 
 	private void bttSalvar() {
-		if(processDataInterface() == false)
+		if(!processDataInterface())
 			return;
 		
-		caixaAtual.printDataConsole();
 	}
 
 	@Override
@@ -74,24 +77,33 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 
 	@Override
 	protected void processDataPersistence() {
-		// TODO Auto-generated method stub
+		CaixaDao caixaDao = new CaixaDao();
 		
+		switch(modPersistData) {
+			case NEW:
+				caixaDao.save(caixaAtual);
+				break;
+			
+			case UPDATE:
+				caixaDao.update(caixaAtual);
+				break;
+				
+			case DELET:
+				caixaDao.delete(caixaAtual);
+				break;
+				
+			default:
+				break;
+		}
 	}
 	
 	@Override
 	protected boolean validateFields() {
-		ValidaField validField = new ValidaField();
-		for(int i = 0; i < camposObrigatorios.size(); i++) {
-			validField.setControl(camposObrigatorios.get(i));
-			validField.validateControl();
-			if(validField.getError()) {
-				MensagemInfoControl.setMsg(camposObrigatorios.get(i).getId());//Por enquanto mensagem não tratada
-				MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
-				return false;
-			}
-			validField.clear();
-		}
-		return true;
+		
+		if(!validateFieldDescricao() || !validateFieldValInicial()) {
+			return false;
+		} else 
+			return true;
 	}
 	
 	@Override
@@ -120,6 +132,38 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private void initProperties() {
+		caixaAtual = new Caixa();
+		modPersistData = ModPersistData.NEW;
+	}
 
+	private boolean validateFieldDescricao() {
+		ValidaField validField = new ValidaField();
+		validField.setControl(textDescricao);
+		
+		validField.validateControl();
+		if(validField.getError()) {
+			MensagemInfoControl.setMsg("Campo: Descricao, Invalido!");
+			MensagemInfoView.loadAndShowStage(PrincipalView.getStage());
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean validateFieldValInicial() {
+		ValidaField validField = new ValidaField();
+		validField.setControl(textValInicial);
+		
+		validField.validateControl();
+		if(validField.getError()) {
+			MensagemInfoControl.setMsg("Campo: Valor Inicial, Invalido!");
+			MensagemInfoView.loadAndShowStage(PrincipalView.getStage());
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 }
