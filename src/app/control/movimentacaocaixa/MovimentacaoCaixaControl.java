@@ -1,6 +1,8 @@
 package app.control.movimentacaocaixa;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
@@ -11,12 +13,12 @@ import app.util.ValidaField;
 import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.movimentacaocaixa.MovimentacaoCaixaView;
 import app.view.msg.info.MensagemInfoView;
-import app.view.principal.PrincipalView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -25,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 
 public class MovimentacaoCaixaControl extends ScreensRegisterControl implements Initializable {
 	
+	private List<Node> camposObrigatorios = new ArrayList<Node>();
 	final private ObservableList<String> opcoesTipoMov = FXCollections.observableArrayList("Entrada", "Saida");
 	
 	private Movimentacao movimento;
@@ -41,6 +44,12 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
     	initializeProperties();
+    	
+    	camposObrigatorios.add(datePicker);
+    	camposObrigatorios.add(txtCaixa);
+    	camposObrigatorios.add(txtDescricao);
+    	camposObrigatorios.add(choiceTipo);
+    	camposObrigatorios.add(txtValor);
     	
     	choiceTipo.setItems(opcoesTipoMov);
     	
@@ -75,7 +84,12 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     
     /*BOTAO SALVAR*/
     private void bttSalvarMovimento() {
-    	extractFields();
+    	
+    	System.out.println(validateFields());
+    	if(!validateFields()) {
+    		MensagemInfoControl.setMsg(getCampoVazio().getId());
+    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
+    	}
     	
     }
     
@@ -114,8 +128,12 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected boolean validateFields() {
-		// TODO Auto-generated method stub
-		return false;
+		for(int i = 0; i < camposObrigatorios.size(); i++) {
+			if(validateControl(camposObrigatorios.get(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -136,19 +154,8 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	//PROPRIEDADES ---------------------------
 	
 	//COMPONENTES GRAFICOS -----------------------------
-	private boolean validateFieldValInicial() {
-		ValidaField validField = new ValidaField();
-		validField.setControl(txtCaixa);
-		
-		validField.validateControl();
-		if(validField.getError()) {
-			MensagemInfoControl.setMsg("Campo: Caixa, Invalido!");
-			MensagemInfoView.loadAndShowStage(PrincipalView.getStage());
-			return false;
-		} else {
-			return true;
-		}
-	}
+	
+	
 	
 	//UTILITARIOS -----------------------------
 	
@@ -162,5 +169,26 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		data = dia + "/" + mes + "/" + ano;
 		
 		return data;
+	}
+	
+	private boolean validateControl(Node control) {
+		ValidaField validField = new ValidaField();
+		validField.setControl(control);
+		
+		validField.validateControl();
+		if(validField.getError()) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private Node getCampoVazio() {
+		for(int i = 0; i < camposObrigatorios.size(); i++) {
+			if(validateControl(camposObrigatorios.get(i))) {
+				return camposObrigatorios.get(i);
+			}
+		}
+		return null;
 	}
 }
