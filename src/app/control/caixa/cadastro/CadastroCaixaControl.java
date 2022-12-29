@@ -50,6 +50,12 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 			}
 		});
 		
+		bttRemover.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				bttRemover();
+			}
+		});
+		
 		bttSalvar.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				bttSalvar();
@@ -89,6 +95,13 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 			caixaAtual = BuscarCaixaControl.getCaixaSelected();
 			modPersistData = ModPersistData.UPDATE;
 			showDataScreen();
+		}
+	}
+	
+	/*BOTAO REMOVER*/
+	private void bttRemover() {
+		if(modPersistData == ModPersistData.UPDATE && caixaAtual.getId() != 0) {
+			
 		}
 	}
 
@@ -148,7 +161,6 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 			MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
 			return false;
 		}
-		
 		return true;
 	}
 

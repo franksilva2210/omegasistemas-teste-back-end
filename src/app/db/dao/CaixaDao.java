@@ -124,8 +124,32 @@ public class CaixaDao implements Dao<Caixa> {
 
 	@Override
 	public void delete(Caixa ob) {
-		// TODO Auto-generated method stub
+		Connection conexao = null;
+		PreparedStatement pstmt = null;
 		
+		String sql = "DELETE FROM caixa "
+				   + "WHERE idcaixa = ?";
+		
+		try {
+			conexao = Conexao.getConnection("controlecaixa");
+			
+			pstmt = conexao.prepareStatement(sql);
+			pstmt.setInt(1, ob.getId());
+			pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+        		if(conexao != null)
+        			conexao.close();
+        		if(pstmt != null)
+        			pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
