@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
+import app.control.msg.confirm.MensagemConfirmacaoControl;
 import app.control.msg.info.MensagemInfoControl;
 import app.db.dao.CaixaDao;
 import app.model.Caixa;
@@ -12,6 +13,7 @@ import app.util.ValidaField;
 import app.util.db.ModPersistData;
 import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.caixa.cadastro.CadastroCaixaView;
+import app.view.msg.confirm.MensagemConfirmacaoView;
 import app.view.msg.info.MensagemInfoView;
 import app.view.principal.PrincipalView;
 import javafx.fxml.FXML;
@@ -101,7 +103,15 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	/*BOTAO REMOVER*/
 	private void bttRemover() {
 		if(modPersistData == ModPersistData.UPDATE && caixaAtual.getId() != 0) {
-			
+			MensagemConfirmacaoControl.setMsgConfirm("Deseja realmente excluir este caixa?");
+			MensagemConfirmacaoControl.setConfirmOperation(false);
+			MensagemConfirmacaoView.loadAndShowStage(CadastroCaixaView.getStage());
+			if(MensagemConfirmacaoControl.getConfirmOperation()) {
+				modPersistData = ModPersistData.DELET;
+				processDataPersistence();
+				clearDataScreen();
+				resetProperties();
+			}
 		}
 	}
 
