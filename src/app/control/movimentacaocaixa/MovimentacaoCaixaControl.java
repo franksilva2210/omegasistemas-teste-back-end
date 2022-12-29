@@ -39,7 +39,9 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     @FXML private ChoiceBox<String> choiceTipo;
     @FXML private TextField txtValor;
     @FXML private Label lblValorTotal;
-    @FXML private Button bttSalvar;
+    @FXML private Label lblTipo;
+    @FXML private Label lblNovoSaldo;
+    @FXML private Button bttCalcLancamento;
     @FXML private Button bttCancel;
 	
     @Override
@@ -54,9 +56,9 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 			}
 		});
     	
-    	bttSalvar.setOnMouseClicked((MouseEvent mouse) -> {
+    	bttCalcLancamento.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				bttSalvarMovimento();
+				bttCalcLancamento();
 			}
 		});
     	
@@ -85,11 +87,11 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     }
     
     /*BOTAO SALVAR*/
-    private void bttSalvarMovimento() {
+    private void bttCalcLancamento() {
     	if(!processDataInterface())
     		return;
     	
-    	showDataScreen();
+    	processDataObject();
     	
     	
     }
@@ -106,8 +108,8 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected boolean processDataObject() {
-		// TODO Auto-generated method stub
-		return false;
+		movimento.calcLancamento();
+		return true;
 	}
 
 	@Override
@@ -271,7 +273,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		return data;
 	}
 	
-	private void metodo() {
+	private void showDadosPrevia() {
 		
 	}
 	

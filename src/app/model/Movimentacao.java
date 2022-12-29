@@ -89,7 +89,26 @@ public class Movimentacao {
 		this.valor = 0.0;
 	}
 	
-	public void calcNewSaldoCaixa() {
-		
+	public void calcLancamento() {
+		switch(tipo) {
+			case ("Entrada"):
+				calcEntrada();
+				break;
+			
+			case ("Saida"):
+				calcSaida();
+				break;
+			
+			default:
+				break;
+		}
+	}
+	
+	private void calcEntrada() {
+		caixa.setSaldoInicial(caixa.getSaldoInicial() + valor);
+	}
+	
+	private void calcSaida() {
+		caixa.setSaldoInicial(caixa.getSaldoInicial() - valor);
 	}
 }
