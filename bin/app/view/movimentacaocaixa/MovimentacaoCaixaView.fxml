@@ -208,11 +208,18 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="323.0">
                            <children>
-                              <Label text="Valor Total Atual:" />
+                              <Label text="Valor Total Atual:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
                               <Label fx:id="lblValorTotal">
                                  <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
                               </Label>
                            </children>
                            <HBox.margin>

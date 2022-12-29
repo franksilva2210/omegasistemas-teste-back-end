@@ -1,6 +1,7 @@
 package app.control.movimentacaocaixa;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
@@ -271,18 +272,18 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		return data;
 	}
 	
+	private void showDadosPreviaLancamento() {
+		lblTipo.setText(movimento.getTipo());
+		lblValMov.setText(String.valueOf(movimento.getValor()));
+		showSaldoInicial();
+	}
+	
 	private void showSaldoInicial() {
-		lblValorTotal.setText(String.valueOf(movimento.getCaixa().getSaldoInicial()));
+		DecimalFormat formatador = new DecimalFormat("#.##");
+		lblValorTotal.setText("R$ " + String.valueOf(formatador.format(movimento.getCaixa().getSaldoInicial())));
 	}
 	
 	private void showNomeCaixa() {
 		txtCaixa.setText(movimento.getCaixa().getDescricao());
 	}
-	
-	private void showDadosPreviaLancamento() {
-		lblTipo.setText(movimento.getTipo());
-		lblValMov.setText(String.valueOf(movimento.getValor()));
-	}
-	
-	
 }
