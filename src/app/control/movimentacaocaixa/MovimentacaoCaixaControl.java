@@ -40,7 +40,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     @FXML private TextField txtValor;
     @FXML private Label lblValorTotal;
     @FXML private Label lblTipo;
-    @FXML private Label lblNovoSaldo;
+    @FXML private Label lblValMov;
     @FXML private Button bttCalcLancamento;
     @FXML private Button bttCancel;
 	
@@ -82,7 +82,8 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     	if (BuscarCaixaControl.getCaixaSelected() != null) {
     		movimento.setCaixa(BuscarCaixaControl.getCaixaSelected());
     		modPersistData = ModPersistData.UPDATE;
-    		showDataScreen();
+    		showNomeCaixa();
+    		showSaldoInicial();
     	}
     }
     
@@ -92,8 +93,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     		return;
     	
     	processDataObject();
-    	
-    	
+    	showDadosPreviaLancamento();
     }
     
     @Override
@@ -170,8 +170,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected void showDataScreen() {
-		txtCaixa.setText(movimento.getCaixa().getDescricao());
-		lblValorTotal.setText(String.valueOf(movimento.getCaixa().getSaldoInicial()));
+		
 	}
 
 	@Override
@@ -269,12 +268,20 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		int ano = datePicker.getValue().getYear();
 		
 		data = dia + "/" + mes + "/" + ano;
-		
 		return data;
 	}
 	
-	private void showDadosPrevia() {
-		
+	private void showSaldoInicial() {
+		lblValorTotal.setText(String.valueOf(movimento.getCaixa().getSaldoInicial()));
+	}
+	
+	private void showNomeCaixa() {
+		txtCaixa.setText(movimento.getCaixa().getDescricao());
+	}
+	
+	private void showDadosPreviaLancamento() {
+		lblTipo.setText(movimento.getTipo());
+		lblValMov.setText(String.valueOf(movimento.getValor()));
 	}
 	
 	

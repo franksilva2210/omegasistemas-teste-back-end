@@ -90,18 +90,10 @@ public class Movimentacao {
 	}
 	
 	public void calcLancamento() {
-		switch(tipo) {
-			case ("Entrada"):
-				calcEntrada();
-				break;
-			
-			case ("Saida"):
-				calcSaida();
-				break;
-			
-			default:
-				break;
-		}
+		if(tipo.equals("Entrada")) 
+			calcEntrada();
+		else if(tipo.equals("Saida"))
+			calcSaida();
 	}
 	
 	private void calcEntrada() {
