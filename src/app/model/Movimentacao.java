@@ -88,4 +88,8 @@ public class Movimentacao {
 		this.descricao = "";
 		this.valor = 0.0;
 	}
+	
+	public void calcNewSaldoCaixa() {
+		
+	}
 }

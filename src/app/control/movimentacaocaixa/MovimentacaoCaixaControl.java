@@ -79,6 +79,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     	
     	if (BuscarCaixaControl.getCaixaSelected() != null) {
     		movimento.setCaixa(BuscarCaixaControl.getCaixaSelected());
+    		modPersistData = ModPersistData.UPDATE;
     		showDataScreen();
     	}
     }
@@ -88,10 +89,9 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     	if(!processDataInterface())
     		return;
     	
-    	processDataPersistence();
+    	showDataScreen();
     	
-    	clearDataScreen();
-    	resetProperties();
+    	
     }
     
     @Override
@@ -185,11 +185,6 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		modPersistData = ModPersistData.NEW;
 	}
 	
-	private void resetProperties() {
-		movimento.clear();
-		modPersistData = ModPersistData.NEW;
-	}
-	
 	//COMPONENTES GRAFICOS -----------------------------
 	
 	private boolean validaFieldCaixa() {
@@ -274,6 +269,10 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		data = dia + "/" + mes + "/" + ano;
 		
 		return data;
+	}
+	
+	private void metodo() {
+		
 	}
 	
 	
