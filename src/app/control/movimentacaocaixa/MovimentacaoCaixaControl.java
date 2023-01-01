@@ -93,8 +93,11 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     	if(!processDataInterface())
     		return;
     	
-    	if(processDataObject())
+    	if(!processDataObject())
     		return;
+    	
+    	resetProperties();
+    	clearDataScreen();
     }
     
     @Override
@@ -176,13 +179,22 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected void clearDataScreen() {
-		
+		this.txtCaixa.clear();
+		this.datePicker.getEditor().clear();
+		this.txtDescricao.clear();
+		this.choiceTipo.getSelectionModel().clearSelection();
+		this.txtValor.clear();
 	}
 	
 	//PROPRIEDADES ---------------------------
 
 	private void initializeProperties() {
 		movimento = new Movimentacao();
+		modPersistData = ModPersistData.NEW;
+	}
+	
+	private void resetProperties() {
+		movimento.clear();
 		modPersistData = ModPersistData.NEW;
 	}
 	
