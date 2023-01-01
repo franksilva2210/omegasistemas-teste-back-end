@@ -24,7 +24,7 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 		String sql1 = "INSERT INTO movimentacao(data, tipo, descricao, valor) "
 					+ "VALUES(?, ?, ?, ?)";
 		
-		String sql2 = "INSERT INTO movimento_caixa(id_caixa, id_mov) "
+		String sql2 = "INSERT INTO movimentacao_caixa(id_caixa, id_mov) "
 	            	+ "VALUES(?, ?)";
 		
 		try {
@@ -36,7 +36,6 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 			pstmt1.setString(2, ob.getTipo());
 			pstmt1.setString(3, ob.getDescricao());
 			pstmt1.setDouble(4, ob.getValor());
-			
 			
 		} catch (SQLException e) {
 
