@@ -1,14 +1,8 @@
 package app.db.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import app.model.Movimentacao;
-import app.util.db.Conexao;
 import app.util.db.Dao;
 
 public class MovimentacaoDao implements Dao<Movimentacao> {

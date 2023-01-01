@@ -4,7 +4,7 @@ public class Caixa {
 	
 	private int id;
 	private String descricao;
-	private double saldoInicial;
+	private double saldo;
 	
 	public Caixa() {
 		
@@ -14,7 +14,7 @@ public class Caixa {
 		super();
 		this.id = id;
 		this.descricao = descricao;
-		this.saldoInicial = saldoInicial;
+		this.saldo = saldoInicial;
 	}
 
 	public int getId() {
@@ -33,23 +33,23 @@ public class Caixa {
 		this.descricao = descricao;
 	}
 
-	public double getSaldoInicial() {
-		return saldoInicial;
+	public double getSaldo() {
+		return saldo;
 	}
 
-	public void setSaldoInicial(double valInicial) {
-		this.saldoInicial = valInicial;
+	public void setSaldo(double val) {
+		this.saldo = val;
 	}
 	
 	public void printDataConsole() {
 		System.out.println("Id: " + id);
 		System.out.println("Descricao: " + descricao);
-		System.out.println("Valor Inicial: " + saldoInicial);
+		System.out.println("Valor Inicial: " + saldo);
 	}
 	
 	public void clear() {
 		this.id = 0;
 		this.descricao = "";
-		this.saldoInicial = 0.0;
+		this.saldo = 0.0;
 	}
 }

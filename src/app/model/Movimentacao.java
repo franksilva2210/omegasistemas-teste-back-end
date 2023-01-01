@@ -10,7 +10,12 @@ public class Movimentacao {
 	private Double valor;
 	
 	public Movimentacao() {
-		
+		this.id = 0;
+		this.data = "";
+		this.tipo = "";
+		this.caixa = new Caixa();
+		this.descricao = "";
+		this.valor = 0.0;
 	}
 	
 	public Movimentacao(int id, String data, String tipo, Caixa caixa, String desc, Double valor) {
@@ -77,7 +82,8 @@ public class Movimentacao {
 		System.out.println("Tipo: " + tipo);
 		System.out.println("Id Caixa: " + caixa.getId());
 		System.out.println("Descrição: " + descricao);
-		System.out.println("Valor: " + valor);
+		System.out.println("Valor Movimento: " + valor);
+		System.out.println("Valor Atual Caixa: " + caixa.getSaldo());
 	}
 	
 	public void clear() {
@@ -89,7 +95,7 @@ public class Movimentacao {
 		this.valor = 0.0;
 	}
 	
-	public void calcLancamento() {
+	public void calcNovoSaldoCaixa() {
 		if(tipo.equals("Entrada")) 
 			calcEntrada();
 		else if(tipo.equals("Saida"))
@@ -97,10 +103,10 @@ public class Movimentacao {
 	}
 	
 	private void calcEntrada() {
-		caixa.setSaldoInicial(caixa.getSaldoInicial() + valor);
+		caixa.setSaldo(caixa.getSaldo() + valor);
 	}
 	
 	private void calcSaida() {
-		caixa.setSaldoInicial(caixa.getSaldoInicial() - valor);
+		caixa.setSaldo(caixa.getSaldo() - valor);
 	}
 }

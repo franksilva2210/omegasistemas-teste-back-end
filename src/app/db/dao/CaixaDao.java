@@ -35,7 +35,7 @@ public class CaixaDao implements Dao<Caixa> {
 				
 				caixa.setId(result.getInt("idcaixa"));
 				caixa.setDescricao(result.getString("descricao"));
-				caixa.setSaldoInicial(result.getDouble("saldoInicial"));
+				caixa.setSaldo(result.getDouble("saldoInicial"));
 				
 				listCaixa.add(caixa);
 			}
@@ -72,7 +72,7 @@ public class CaixaDao implements Dao<Caixa> {
 			
 			pstmt = conexao.prepareStatement(sql);
 			pstmt.setString(1, ob.getDescricao());
-			pstmt.setDouble(2, ob.getSaldoInicial());
+			pstmt.setDouble(2, ob.getSaldo());
 			pstmt.execute();
 			
 		} catch (SQLException e) {
@@ -104,7 +104,7 @@ public class CaixaDao implements Dao<Caixa> {
 			pstmt = conexao.prepareStatement(sql);
 			
 			pstmt.setString(1, ob.getDescricao());
-			pstmt.setDouble(2, ob.getSaldoInicial());
+			pstmt.setDouble(2, ob.getSaldo());
 			pstmt.setInt(3, ob.getId());
 			
 			pstmt.executeUpdate();

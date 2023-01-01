@@ -1,7 +1,6 @@
 package app.control.movimentacaocaixa;
 
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
@@ -16,12 +15,12 @@ import app.view.movimentacaocaixa.MovimentacaoCaixaView;
 import app.view.msg.info.MensagemInfoView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -36,13 +35,14 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	@FXML private DatePicker datePicker;
 	@FXML private TextField txtCaixa;
 	@FXML private Button bttBuscarCaixa;
+	@FXML private Hyperlink linkLimparFieldCaixa;
     @FXML private TextField txtDescricao;
     @FXML private ChoiceBox<String> choiceTipo;
     @FXML private TextField txtValor;
     @FXML private Label lblValorTotal;
     @FXML private Label lblTipo;
     @FXML private Label lblValMov;
-    @FXML private Button bttCalcLancamento;
+    @FXML private Button bttSalvar;
     @FXML private Button bttCancel;
 	
     @Override
@@ -57,22 +57,23 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 			}
 		});
     	
-    	bttCalcLancamento.setOnMouseClicked((MouseEvent mouse) -> {
+    	linkLimparFieldCaixa.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				bttCalcLancamento();
+				txtCaixa.clear();
 			}
 		});
     	
-    	datePicker.setOnAction((ActionEvent event) -> {
-    		
-    	});
+    	bttSalvar.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				bttSalvar();
+			}
+		});
     	
     	bttCancel.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				MovimentacaoCaixaView.getStage().close();
 			}
 		});
-    	
 	}
     
     /*BOTAO BUSCAR CAIXA*/
@@ -83,18 +84,17 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
     	if (BuscarCaixaControl.getCaixaSelected() != null) {
     		movimento.setCaixa(BuscarCaixaControl.getCaixaSelected());
     		modPersistData = ModPersistData.UPDATE;
-    		showNomeCaixa();
-    		showSaldoInicial();
+    		preencheFieldCaixa();
     	}
     }
     
     /*BOTAO SALVAR*/
-    private void bttCalcLancamento() {
+    private void bttSalvar() {
     	if(!processDataInterface())
     		return;
     	
-    	processDataObject();
-    	showDadosPreviaLancamento();
+    	if(processDataObject())
+    		return;
     }
     
     @Override
@@ -109,7 +109,7 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected boolean processDataObject() {
-		movimento.calcLancamento();
+		movimento.calcNovoSaldoCaixa();
 		return true;
 	}
 
@@ -136,24 +136,6 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	}
 	
 	@Override
-	protected boolean extractFields() {
-		movimento.setData(getDataConvertida());
-		movimento.setDescricao(txtDescricao.getText());
-		movimento.setTipo(choiceTipo.getValue());
-		
-		try {
-			movimento.setValor(Double.parseDouble(txtValor.getText()));
-		} catch(NumberFormatException e) {
-			movimento.setValor(0.0);
-			MensagemInfoControl.setMsg("Nao e permitido o uso de caracteres\nnao numericos");
-    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
-			return false;
-		}
-		
-		return true;
-	}
-
-	@Override
 	protected boolean validateFields() {
 		if(!validaFieldCaixa())
 			return false;
@@ -168,6 +150,24 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 		else
 			return true;
 	}
+	
+	@Override
+	protected boolean extractFields() {
+		movimento.setData(String.valueOf(datePicker.getValue()));
+		movimento.setDescricao(txtDescricao.getText());
+		movimento.setTipo(choiceTipo.getValue());
+		
+		try {
+			movimento.setValor(Double.parseDouble(txtValor.getText()));
+		} catch(NumberFormatException e) {
+			movimento.setValor(0.0);
+			MensagemInfoControl.setMsg("Campo: Valor. Digite um numero valido");
+    		MensagemInfoView.loadAndShowStage(MovimentacaoCaixaView.getStage());
+    		return false;
+		}
+		
+		return true;
+	}
 
 	@Override
 	protected void showDataScreen() {
@@ -176,7 +176,6 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 
 	@Override
 	protected void clearDataScreen() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -261,29 +260,8 @@ public class MovimentacaoCaixaControl extends ScreensRegisterControl implements 
 	
 	//UTILITARIOS -----------------------------
 	
-	private String getDataConvertida() {
-		String data = new String();
-		
-		int dia = datePicker.getValue().getDayOfMonth();
-		int mes = datePicker.getValue().getMonth().getValue();
-		int ano = datePicker.getValue().getYear();
-		
-		data = dia + "/" + mes + "/" + ano;
-		return data;
-	}
-	
-	private void showDadosPreviaLancamento() {
-		lblTipo.setText(movimento.getTipo());
-		lblValMov.setText(String.valueOf(movimento.getValor()));
-		showSaldoInicial();
-	}
-	
-	private void showSaldoInicial() {
-		DecimalFormat formatador = new DecimalFormat("#.##");
-		lblValorTotal.setText("R$ " + String.valueOf(formatador.format(movimento.getCaixa().getSaldoInicial())));
-	}
-	
-	private void showNomeCaixa() {
+	private void preencheFieldCaixa() {
 		txtCaixa.setText(movimento.getCaixa().getDescricao());
 	}
+	
 }

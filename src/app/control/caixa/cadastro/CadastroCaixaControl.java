@@ -117,10 +117,12 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 
 	@Override
 	protected boolean processDataInterface() {
-		if(!validateFields() || !extractFields()) {
-			return false;
-		} else 
+		if(validateFields()) {
+			extractFields();
 			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -164,13 +166,14 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 		caixaAtual.setDescricao(textDescricao.getText());
 		
 		try {
-			caixaAtual.setSaldoInicial(Double.parseDouble(textValInicial.getText()));
+			caixaAtual.setSaldo(Double.parseDouble(textValInicial.getText()));
 		} catch(NumberFormatException e) {
 			MensagemInfoControl.setMsg("Campo: Valor Inicial: Nao e possivel a insercao de\n");
 			MensagemInfoControl.setMsg(MensagemInfoControl.getMsg() + "letras ou outros caracteres nao numericos");
 			MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
 			return false;
 		}
+		
 		return true;
 	}
 
@@ -178,7 +181,7 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	protected void showDataScreen() {
 		textCodId.setText(String.valueOf(caixaAtual.getId()));
 		textDescricao.setText(caixaAtual.getDescricao());
-		textValInicial.setText(String.valueOf(caixaAtual.getSaldoInicial()));
+		textValInicial.setText(String.valueOf(caixaAtual.getSaldo()));
 	}
 
 	@Override

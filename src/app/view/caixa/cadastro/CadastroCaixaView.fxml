@@ -69,14 +69,14 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="20.0" prefHeight="32.0" prefWidth="383.0">
                      <children>
-                        <Label text="Valor Inicial:">
+                        <Label text="Saldo:">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="textValInicial" prefHeight="25.0" prefWidth="175.0">
+                        <TextField fx:id="textValInicial" prefHeight="25.0" prefWidth="174.0">
                            <HBox.margin>
-                              <Insets left="5.0" />
+                              <Insets left="35.0" />
                            </HBox.margin>
                         </TextField>
                      </children>

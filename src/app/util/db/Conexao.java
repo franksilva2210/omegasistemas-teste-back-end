@@ -11,7 +11,7 @@ public class Conexao {
 		try {
 			conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nomeBanco, "root", "root");
 			System.out.println("Conexão com Banco de Dados Realizada com Sucesso!");
-		}catch(SQLException exc) {
+		} catch (SQLException exc) {
 			System.out.println("Erro na conexão com o banco de dados! " + exc.getMessage());
 			exc.printStackTrace();
 		}

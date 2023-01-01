@@ -35,5 +35,4 @@ public class MensagemInfoControl implements Initializable {
 	public static void setMsg(String msg) {
 		MensagemInfoControl.msg = msg;
 	}
-	
 }

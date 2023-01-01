@@ -76,5 +76,4 @@ public class PrincipalView {
 		stage.setTitle("Home");
 		stage.setScene(scene);
 	}
-	
 }

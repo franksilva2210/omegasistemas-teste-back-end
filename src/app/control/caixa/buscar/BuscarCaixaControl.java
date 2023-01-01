@@ -34,7 +34,7 @@ public class BuscarCaixaControl implements Initializable {
 		
 		colCodId.setCellValueFactory(new PropertyValueFactory<Caixa, Integer>("id"));
 		ColDesc.setCellValueFactory(new PropertyValueFactory<Caixa, String>("descricao"));
-		colValInicial.setCellValueFactory(new PropertyValueFactory<Caixa, Double>("saldoInicial"));
+		colValInicial.setCellValueFactory(new PropertyValueFactory<Caixa, Double>("saldo"));
 		
 		tabCaixas.setItems(listCaixas);
 		
