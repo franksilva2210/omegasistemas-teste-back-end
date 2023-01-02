@@ -1,15 +1,15 @@
-package app.view.movimentacaocaixa;
+package app.view.movcaixa.cadastro;
 
 import java.io.IOException;
 
-import app.control.movimentacaocaixa.MovimentacaoCaixaControl;
+import app.control.movcaixa.cadastro.CadastroMovCaixaControl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MovimentacaoCaixaView {
+public class CadastroMovCaixaView {
 	private static Stage stage;
 	private static Scene scene;
 	private static Parent root;
@@ -19,7 +19,7 @@ public class MovimentacaoCaixaView {
 	}
 	
 	public static void setStage(Stage stage) {
-		MovimentacaoCaixaView.stage = stage;
+		CadastroMovCaixaView.stage = stage;
 	}
 	
 	public static Scene getScene() {
@@ -27,7 +27,7 @@ public class MovimentacaoCaixaView {
 	}
 	
 	public static void setScene(Scene scene) {
-		MovimentacaoCaixaView.scene = scene;
+		CadastroMovCaixaView.scene = scene;
 	}
 	
 	public static Parent getRoot() {
@@ -35,7 +35,7 @@ public class MovimentacaoCaixaView {
 	}
 	
 	public static void setRoot(Parent root) {
-		MovimentacaoCaixaView.root = root;
+		CadastroMovCaixaView.root = root;
 	}
 	
 	//----------|CONSTROI E EXIBE TELA|----------
@@ -58,8 +58,8 @@ public class MovimentacaoCaixaView {
 	
 	private static void buildRoot() {
 		FXMLLoader rootFxml = new FXMLLoader();
-		rootFxml.setLocation(MovimentacaoCaixaView.class.getResource("MovimentacaoCaixaView.fxml"));
-		rootFxml.setController(new MovimentacaoCaixaControl());
+		rootFxml.setLocation(CadastroMovCaixaView.class.getResource("CadastroMovCaixaView.fxml"));
+		rootFxml.setController(new CadastroMovCaixaControl());
 		
 		try {
 			root = rootFxml.load();
@@ -74,7 +74,7 @@ public class MovimentacaoCaixaView {
 	
 	private static void buildStage(Stage stageOwner) {
 		stage = new Stage();
-		stage.setTitle("Movimentação de Caixa");
+		stage.setTitle("Movimentar Caixa");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(stageOwner);
 		stage.setScene(scene);

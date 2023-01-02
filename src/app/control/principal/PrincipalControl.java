@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import app.view.caixa.cadastro.CadastroCaixaView;
-import app.view.movimentacaocaixa.MovimentacaoCaixaView;
+import app.view.movcaixa.cadastro.CadastroMovCaixaView;
 import app.view.principal.PrincipalView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,7 +26,7 @@ public class PrincipalControl implements Initializable {
 		
 		bttMovCaixa.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				MovimentacaoCaixaView.buildAndShowScreen(PrincipalView.getStage());
+				CadastroMovCaixaView.buildAndShowScreen(PrincipalView.getStage());
 			}
 		});
 	}

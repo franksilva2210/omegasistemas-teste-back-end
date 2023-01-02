@@ -19,7 +19,6 @@ public class Movimentacao {
 	}
 	
 	public Movimentacao(int id, String data, String tipo, Caixa caixa, String desc, Double valor) {
-		super();
 		this.id = id;
 		this.data = data;
 		this.tipo = tipo;

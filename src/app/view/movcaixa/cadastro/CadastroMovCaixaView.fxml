@@ -44,6 +44,26 @@
                </children></HBox>
             <VBox prefHeight="242.0" prefWidth="550.0">
                <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="550.0">
+                     <children>
+                        <Label text="Id:">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtId" editable="false" style="-fx-background-color: none;">
+                           <HBox.margin>
+                              <Insets left="53.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="558.0">
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="453.0">
@@ -75,7 +95,7 @@
                         </HBox>
                      </children>
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets />
                      </VBox.margin>
                   </HBox>
                   <HBox prefHeight="27.0" prefWidth="200.0">

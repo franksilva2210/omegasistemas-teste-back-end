@@ -137,7 +137,6 @@ public class CaixaDao implements Dao<Caixa> {
 			pstmt.setInt(1, ob.getId());
 			pstmt.executeUpdate();
 			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -151,5 +150,4 @@ public class CaixaDao implements Dao<Caixa> {
 			}
 		}
 	}
-
 }
