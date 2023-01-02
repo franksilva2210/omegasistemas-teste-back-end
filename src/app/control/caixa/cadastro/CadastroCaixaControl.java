@@ -136,7 +136,7 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 		CaixaDao caixaDao = new CaixaDao();
 		
 		switch(modPersistData) {
-			case NEW:
+			case INSERT:
 				caixaDao.save(caixaAtual);
 				break;
 			
@@ -193,12 +193,12 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	
 	private void initProperties() {
 		caixaAtual = new Caixa();
-		modPersistData = ModPersistData.NEW;
+		modPersistData = ModPersistData.INSERT;
 	}
 	
 	private void resetProperties() {
 		caixaAtual.clear();
-		modPersistData = ModPersistData.NEW;
+		modPersistData = ModPersistData.INSERT;
 	}
 
 	private boolean validateFieldDescricao() {

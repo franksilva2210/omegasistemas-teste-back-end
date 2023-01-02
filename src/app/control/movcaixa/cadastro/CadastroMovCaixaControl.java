@@ -48,7 +48,7 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 	
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-    	initializeProperties();
+    	initProperties();
     	
     	choiceTipo.setItems(opcoesTipoMov);
     	
@@ -84,7 +84,6 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
     	
     	if (BuscarCaixaControl.getCaixaSelected() != null) {
     		movimento.setCaixa(BuscarCaixaControl.getCaixaSelected());
-    		modPersistData = ModPersistData.UPDATE;
     		preencheFieldCaixa();
     	}
     }
@@ -96,6 +95,8 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
     	
     	if(!processDataObject())
     		return;
+    	
+    	processDataPersistence();
     	
     	resetProperties();
     	clearDataScreen();
@@ -122,7 +123,7 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 		MovimentacaoDao movimentacaoDao = new MovimentacaoDao();
 		
 		switch(modPersistData) {
-			case NEW:
+			case INSERT:
 				movimentacaoDao.save(movimento);
 				break;
 			
@@ -189,14 +190,14 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 	
 	//PROPRIEDADES ---------------------------
 
-	private void initializeProperties() {
+	private void initProperties() {
 		movimento = new Movimentacao();
-		modPersistData = ModPersistData.NEW;
+		modPersistData = ModPersistData.INSERT;
 	}
 	
 	private void resetProperties() {
 		movimento.clear();
-		modPersistData = ModPersistData.NEW;
+		modPersistData = ModPersistData.INSERT;
 	}
 	
 	//COMPONENTES GRAFICOS -----------------------------

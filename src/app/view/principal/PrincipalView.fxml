@@ -23,12 +23,12 @@
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </VBox.margin>
                <children>
-                  <ComboBox prefHeight="25.0" prefWidth="116.0">
+                  <ComboBox fx:id="comboAno" prefHeight="25.0" prefWidth="116.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <Hyperlink text="Janeiro" textFill="BLUE">
+                  <Hyperlink fx:id="linkJan" text="Janeiro" textFill="BLUE">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -36,57 +36,57 @@
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Fevereiro" textFill="BLUE">
+                  <Hyperlink fx:id="linkFev" text="Fevereiro" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Março" textFill="BLUE">
+                  <Hyperlink fx:id="linkMar" text="Março" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Abril" textFill="BLUE">
+                  <Hyperlink fx:id="linkAbr" text="Abril" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Maio" textFill="BLUE">
+                  <Hyperlink fx:id="linkMai" text="Maio" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Junho" textFill="BLUE">
+                  <Hyperlink fx:id="linkJun" text="Junho" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Julho" textFill="BLUE">
+                  <Hyperlink fx:id="linkJul" text="Julho" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Agosto" textFill="BLUE">
+                  <Hyperlink fx:id="linkAgo" text="Agosto" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Setembro" textFill="BLUE">
+                  <Hyperlink fx:id="linkSet" text="Setembro" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Outubro" textFill="BLUE">
+                  <Hyperlink fx:id="linkOutubro" text="Outubro" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Novembro" textFill="BLUE">
+                  <Hyperlink fx:id="linkNov" text="Novembro" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink text="Desembro" textFill="BLUE">
+                  <Hyperlink fx:id="linkDes" text="Desembro" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -97,7 +97,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="577.0">
                      <children>
-                        <Label text="Mes">
+                        <Label fx:id="lblMes" text="Mes">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -110,7 +110,7 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Ano">
+                        <Label fx:id="lblAno" text="Ano">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -123,12 +123,12 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField editable="false" style="-fx-background-color: none;">
+                        <TextField fx:id="txtCaixa" editable="false" style="-fx-background-color: none; -fx-border-color: #cccccc;">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button mnemonicParsing="false" text="Buscar">
+                        <Button fx:id="bttBuscarCaixa" mnemonicParsing="false" text="Buscar">
                            <HBox.margin>
                               <Insets left="2.0" />
                            </HBox.margin>
@@ -181,7 +181,7 @@
                                           <Font name="Arial Bold" size="18.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Label">
+                                    <Label fx:id="lblEntradasMes" text="Label">
                                        <HBox.margin>
                                           <Insets left="50.0" />
                                        </HBox.margin>
@@ -201,7 +201,7 @@
                                           <Font name="Arial Bold" size="18.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Label">
+                                    <Label fx:id="lblSaidasMes" text="Label">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -226,7 +226,7 @@
                                           <Font name="Arial Bold" size="18.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Label">
+                                    <Label fx:id="lblSaldoMes" text="Label">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -269,7 +269,7 @@
                                           <Font name="Arial Bold" size="18.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Label">
+                                    <Label fx:id="lblEntradasGeral" text="Label">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -289,7 +289,7 @@
                                           <Font name="Arial Bold" size="18.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Label">
+                                    <Label fx:id="lblSaidasGeral" text="Label">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -314,7 +314,7 @@
                                           <Font name="Arial Bold" size="18.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Label">
+                                    <Label fx:id="lblSaldoGeral" text="Label">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -347,10 +347,10 @@
                         </Label>
                      </children>
                   </HBox>
-                  <TableView prefHeight="225.0" prefWidth="805.0">
+                  <TableView fx:id="tableMovimentos" prefHeight="225.0" prefWidth="805.0">
                     <columns>
-                      <TableColumn prefWidth="400.99998474121094" text="Descrição" />
-                      <TableColumn prefWidth="394.0" text="Valor" />
+                      <TableColumn fx:id="colDesc" prefWidth="400.99998474121094" text="Descrição" />
+                      <TableColumn fx:id="colVal" prefWidth="394.0" text="Valor" />
                     </columns>
                      <VBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
