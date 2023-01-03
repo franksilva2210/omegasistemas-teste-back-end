@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import app.model.Movimentacao;
@@ -15,7 +16,70 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 	@Override
 	public List<Movimentacao> consultAll() {
+		
 		return null;
+	}
+	
+	public List<Movimentacao> consultAll(int idCaixa) {
+		Connection conexao = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet result1 = null;
+		ResultSet result2 = null;
+		
+		List<Movimentacao> listMovimentacao = new ArrayList<Movimentacao>();
+		
+		String sql1 = "SELECT * " + 
+					  "FROM movimentacao_caixa " + 
+					  "WHERE id_caixa = ?";
+		
+		String sql2 = "SELECT * FROM movimentacao " + 
+					  "WHERE idmovimentacao = ?";
+		
+		try {
+			conexao = Conexao.getConnection("controlecaixa");
+			
+			pstmt1 = conexao.prepareStatement(sql1);
+			pstmt1.setInt(1, idCaixa);
+			
+			result1 = pstmt1.executeQuery();
+			while(result1.next()) {
+				pstmt2 = conexao.prepareStatement(sql2);
+				pstmt2.setInt(1, result1.getInt("id_mov"));
+				
+				result2 = pstmt2.executeQuery();
+				while(result2.next()) {
+					Movimentacao movimentacao = new Movimentacao();
+					movimentacao.setId(result2.getInt("idmovimentacao"));
+					movimentacao.setData(result2.getString("data"));
+					movimentacao.setDescricao(result2.getString("descricao"));
+					movimentacao.setTipo(result2.getString("tipo"));
+					movimentacao.setValor(result2.getDouble("valor"));
+					
+					listMovimentacao.add(movimentacao);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(result1 != null)  
+					result1.close();
+				if(result2 != null)  
+					result2.close();
+				if(pstmt1 != null) 
+					pstmt1.close();
+				if(pstmt2 != null) 
+					pstmt2.close();
+				if(conexao != null) 
+					conexao.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return listMovimentacao;
 	}
 
 	@Override

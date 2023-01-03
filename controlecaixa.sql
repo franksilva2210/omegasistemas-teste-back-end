@@ -38,7 +38,7 @@ CREATE TABLE `caixa` (
 
 LOCK TABLES `caixa` WRITE;
 /*!40000 ALTER TABLE `caixa` DISABLE KEYS */;
-INSERT INTO `caixa` VALUES (1,'CAIXA MARIA',150),(2,'CAIXA JUCA',120);
+INSERT INTO `caixa` VALUES (1,'CAIXA MARIA',150),(2,'CAIXA FRANK',0);
 /*!40000 ALTER TABLE `caixa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,13 +50,13 @@ DROP TABLE IF EXISTS `movimentacao`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `movimentacao` (
-  `idmovimentacao` int(11) NOT NULL,
+  `idmovimentacao` int(11) NOT NULL AUTO_INCREMENT,
   `data` varchar(45) DEFAULT NULL,
   `tipo` varchar(45) DEFAULT NULL,
   `descricao` varchar(45) DEFAULT NULL,
   `valor` double DEFAULT NULL,
   PRIMARY KEY (`idmovimentacao`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,33 +65,35 @@ CREATE TABLE `movimentacao` (
 
 LOCK TABLES `movimentacao` WRITE;
 /*!40000 ALTER TABLE `movimentacao` DISABLE KEYS */;
+INSERT INTO `movimentacao` VALUES (1,'2023-01-02','Entrada','TESTE',5),(2,'2023-01-02','Entrada','TESTE 2',40),(3,'2023-01-02','Entrada','TESTE 3',35),(4,'2023-01-02','Entrada','FORMATAÇÃO COMPUTADOR',50),(5,'2023-01-02','Saida','ESCOVA DE DENTE',30);
 /*!40000 ALTER TABLE `movimentacao` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `movimento_caixa`
+-- Table structure for table `movimentacao_caixa`
 --
 
-DROP TABLE IF EXISTS `movimento_caixa`;
+DROP TABLE IF EXISTS `movimentacao_caixa`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movimento_caixa` (
-  `cod_caixa` int(11) NOT NULL,
-  `cod_mov` int(11) NOT NULL,
-  KEY `FK_Cod_Caixa_idx` (`cod_caixa`),
-  KEY `FK_Cod_Mov_idx` (`cod_mov`),
-  CONSTRAINT `FK_Cod_Caixa` FOREIGN KEY (`cod_caixa`) REFERENCES `caixa` (`idcaixa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_Cod_Mov` FOREIGN KEY (`cod_mov`) REFERENCES `movimentacao` (`idmovimentacao`) ON DELETE NO ACTION ON UPDATE NO ACTION
+CREATE TABLE `movimentacao_caixa` (
+  `id_caixa` int(11) NOT NULL,
+  `id_mov` int(11) NOT NULL,
+  KEY `FK_Cod_Caixa_idx` (`id_caixa`),
+  KEY `FK_Cod_Mov_idx` (`id_mov`),
+  CONSTRAINT `FK_Cod_Caixa` FOREIGN KEY (`id_caixa`) REFERENCES `caixa` (`idcaixa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Cod_Mov` FOREIGN KEY (`id_mov`) REFERENCES `movimentacao` (`idmovimentacao`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `movimento_caixa`
+-- Dumping data for table `movimentacao_caixa`
 --
 
-LOCK TABLES `movimento_caixa` WRITE;
-/*!40000 ALTER TABLE `movimento_caixa` DISABLE KEYS */;
-/*!40000 ALTER TABLE `movimento_caixa` ENABLE KEYS */;
+LOCK TABLES `movimentacao_caixa` WRITE;
+/*!40000 ALTER TABLE `movimentacao_caixa` DISABLE KEYS */;
+INSERT INTO `movimentacao_caixa` VALUES (1,1),(1,2),(2,3),(2,4),(2,5);
+/*!40000 ALTER TABLE `movimentacao_caixa` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -111,4 +113,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-29 14:39:12
+-- Dump completed on 2023-01-03 11:05:32

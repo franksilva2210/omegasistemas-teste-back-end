@@ -3,10 +3,17 @@ package app.control.principal;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import app.control.caixa.buscar.BuscarCaixaControl;
+import app.db.dao.MovimentacaoDao;
+import app.model.Caixa;
+import app.model.Movimentacao;
 import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.caixa.cadastro.CadastroCaixaView;
 import app.view.movcaixa.cadastro.CadastroMovCaixaView;
 import app.view.principal.PrincipalView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,10 +23,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 public class PrincipalControl implements Initializable {
+	
+	private ObservableList<Integer> opcoesAno = FXCollections.observableArrayList(2022, 2023);
+	private ObservableList<Movimentacao> listMovimentacaoCaixa = FXCollections.observableArrayList();
 
+	private Caixa caixaAtual = new Caixa();
+	
 	@FXML private ComboBox<Integer> comboAno;
     @FXML private Hyperlink linkJan;
     @FXML private Hyperlink linkFev;
@@ -39,22 +52,102 @@ public class PrincipalControl implements Initializable {
     @FXML private Button bttBuscarCaixa;
     @FXML private Button bttCaixa;
 	@FXML private Button bttMovCaixa;
+	@FXML private Button bttConsultMovs;
 	@FXML private Label lblEntradasMes;
     @FXML private Label lblSaidasMes;
     @FXML private Label lblSaldoMes;
     @FXML private Label lblEntradasGeral;
     @FXML private Label lblSaidasGeral;
     @FXML private Label lblSaldoGeral;
-    @FXML private TableView<?> tableMovimentos;
-    @FXML private TableColumn<?, ?> colDesc;
-    @FXML private TableColumn<?, ?> colVal;
+    @FXML private TableView<Movimentacao> tableMovimentos;
+    @FXML private TableColumn<Movimentacao, String> colDesc;
+    @FXML private TableColumn<Movimentacao, String> coltipo;
+    @FXML private TableColumn<Movimentacao, Double> colVal;
+    @FXML private TableColumn<Movimentacao, String> colData;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		comboAno.setItems(opcoesAno);
+		comboAno.setOnAction((ActionEvent event) -> {
+			selecionarOpcaoAno();
+		});
+		
+		linkJan.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkJan.getText());
+			}
+		});
+		
+		linkFev.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkFev.getText());
+			}
+		});
+		
+		linkMar.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkMar.getText());
+			}
+		});
+		
+	    linkAbr.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkAbr.getText());
+			}
+		});
+	    
+	    linkMai.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkMai.getText());
+			}
+		});
+	    
+	    linkJun.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkJun.getText());
+			}
+		});
+	    
+	    linkJul.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkJul.getText());
+			}
+		});
+	    
+	    linkAgo.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkAgo.getText());
+			}
+		});
+	    
+	    linkSet.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkSet.getText());
+			}
+		});
+	    
+	    linkOutubro.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkOutubro.getText());
+			}
+		});
+	    
+	    linkNov.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkNov.getText());
+			}
+		});
+	    
+	    linkDes.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				lblMes.setText(linkDes.getText());
+			}
+		});
+		
 		bttBuscarCaixa.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				BuscarCaixaView.buildAndShowScreen(PrincipalView.getStage());
+				buscarCaixa();
 			}
 		});
 		
@@ -69,8 +162,43 @@ public class PrincipalControl implements Initializable {
 				CadastroMovCaixaView.buildAndShowScreen(PrincipalView.getStage());
 			}
 		});
+		
+		bttConsultMovs.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				pesquisarMovimentos();
+			}
+		});
+		
+		colDesc.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("descricao"));
+		coltipo.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("tipo"));
+		colVal.setCellValueFactory(new PropertyValueFactory<Movimentacao, Double>("valor"));
+		colData.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("data"));
+		
+		tableMovimentos.setItems(listMovimentacaoCaixa);
 	}
 	
+	/*COMBOBOX ANO*/
+	private void selecionarOpcaoAno() {
+		Integer ano = comboAno.getValue();
+		if(ano != null) {
+			lblAno.setText(String.valueOf(ano));
+		}
+	}
 	
-
+	/*BOTAO BUSCAR CAIXA*/
+	private void buscarCaixa() {
+		BuscarCaixaControl.setCaixaSelected(null);
+		BuscarCaixaView.buildAndShowScreen(PrincipalView.getStage());
+		if(BuscarCaixaControl.getCaixaSelected() != null) {
+			caixaAtual = BuscarCaixaControl.getCaixaSelected();
+			txtCaixa.setText(caixaAtual.getDescricao());
+		}
+	}
+	
+	private void pesquisarMovimentos() {
+		MovimentacaoDao movDao = new MovimentacaoDao();
+		listMovimentacaoCaixa.clear();
+		listMovimentacaoCaixa.addAll(movDao.consultAll(caixaAtual.getId()));
+		tableMovimentos.refresh();
+	}
 }
