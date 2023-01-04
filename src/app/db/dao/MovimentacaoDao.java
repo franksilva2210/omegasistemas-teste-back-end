@@ -16,8 +16,48 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 	@Override
 	public List<Movimentacao> consultAll() {
+		Connection conexao = null;
+		Statement stmt = null;
+		ResultSet result = null;
 		
-		return null;
+		List<Movimentacao> listMovimentacao = new ArrayList<Movimentacao>();
+		
+		String sql = "SELECT * FROM movimentacao";
+		
+		try {
+			conexao = Conexao.getConnection("controlecaixa");
+			
+			stmt = conexao.createStatement();
+			
+			result = stmt.executeQuery(sql);
+			
+			while(result.next()) {
+				Movimentacao movimento = new Movimentacao();
+				movimento.setId(result.getInt("idmovimentacao"));
+				movimento.setData(result.getString("data"));
+				movimento.setDescricao(result.getString("descricao"));
+				movimento.setTipo(result.getString("tipo"));
+				movimento.setValor(result.getDouble("valor"));
+				
+				listMovimentacao.add(movimento);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(result != null)  
+					result.close();
+				if(stmt != null) 
+					stmt.close();
+				if(conexao != null) 
+					conexao.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return listMovimentacao;
 	}
 	
 	public List<Movimentacao> consultAll(int idCaixa) {

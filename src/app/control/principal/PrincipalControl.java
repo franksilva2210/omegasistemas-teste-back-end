@@ -1,6 +1,7 @@
 package app.control.principal;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
@@ -67,6 +68,7 @@ public class PrincipalControl implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		consultaBalancoGeral();
 		
 		comboAno.setItems(opcoesAno);
 		comboAno.setOnAction((ActionEvent event) -> {
@@ -200,5 +202,28 @@ public class PrincipalControl implements Initializable {
 		listMovimentacaoCaixa.clear();
 		listMovimentacaoCaixa.addAll(movDao.consultAll(caixaAtual.getId()));
 		tableMovimentos.refresh();
+	}
+	
+	private void consultaBalancoGeral() {
+		MovimentacaoDao movDao = new MovimentacaoDao();
+		List<Movimentacao> listMovimentacaoGeral = movDao.consultAll();
+		
+		Double entradas = new Double(0);
+		Double saidas = new Double(0);
+		Double saldoGeral = new Double(0);
+		
+		for(int i = 0; i < listMovimentacaoGeral.size(); i++) {
+			if(listMovimentacaoGeral.get(i).getTipo().equals("Entrada")) {
+				entradas = entradas + listMovimentacaoGeral.get(i).getValor();
+			} else if(listMovimentacaoGeral.get(i).getTipo().equals("Saida")) {
+				saidas = saidas + listMovimentacaoGeral.get(i).getValor();
+			}
+		}
+		
+		saldoGeral = entradas - saidas;
+		
+		lblEntradasGeral.setText(String.valueOf(entradas));
+		lblSaidasGeral.setText(String.valueOf(saidas));
+		lblSaldoGeral.setText(String.valueOf(saldoGeral));
 	}
 }
