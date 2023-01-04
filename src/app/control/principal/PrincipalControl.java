@@ -162,6 +162,7 @@ public class PrincipalControl implements Initializable {
 		bttMovCaixa.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				CadastroMovCaixaView.buildAndShowScreen(PrincipalView.getStage());
+				consultaBalancoGeral();
 			}
 		});
 		
