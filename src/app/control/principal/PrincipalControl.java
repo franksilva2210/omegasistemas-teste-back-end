@@ -68,7 +68,7 @@ public class PrincipalControl implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		consultaBalancoGeral();
+		showBalancoGeral();
 		
 		comboAno.setItems(opcoesAno);
 		comboAno.setOnAction((ActionEvent event) -> {
@@ -162,13 +162,14 @@ public class PrincipalControl implements Initializable {
 		bttMovCaixa.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				CadastroMovCaixaView.buildAndShowScreen(PrincipalView.getStage());
-				consultaBalancoGeral();
+				showBalancoGeral();
 			}
 		});
 		
 		bttConsultMovs.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				pesquisarMovimentos();
+				showBalancoMes();
 			}
 		});
 		
@@ -205,7 +206,27 @@ public class PrincipalControl implements Initializable {
 		tableMovimentos.refresh();
 	}
 	
-	private void consultaBalancoGeral() {
+	private void showBalancoMes() {
+		Double entradas = new Double(0);
+		Double saidas = new Double(0);
+		Double saldoGeral = new Double(0);
+		
+		for(int i = 0;  i < listMovimentacaoCaixa.size(); i++) {
+			if(listMovimentacaoCaixa.get(i).getTipo().equals("Entrada")) {
+				entradas = entradas + listMovimentacaoCaixa.get(i).getValor();
+			} else if(listMovimentacaoCaixa.get(i).getTipo().equals("Saida")) {
+				saidas = saidas + listMovimentacaoCaixa.get(i).getValor();
+			}
+		}
+		
+		saldoGeral = entradas - saidas;
+		
+		lblEntradasMes.setText(String.valueOf(entradas));
+		lblSaidasMes.setText(String.valueOf(saidas));
+		lblSaldoMes.setText(String.valueOf(saldoGeral));
+	}
+	
+	private void showBalancoGeral() {
 		MovimentacaoDao movDao = new MovimentacaoDao();
 		List<Movimentacao> listMovimentacaoGeral = movDao.consultAll();
 		
