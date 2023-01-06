@@ -49,7 +49,7 @@ public class ValidaField {
     	DatePicker datePicker = (DatePicker) control;
         if (datePicker.getValue() == null)
         	error = true;
-        else if(datePicker.getValue().toString().equals(""))
+        else if(datePicker.getValue().toString().trim().isEmpty())
         	error = true;
         else
         	error = false;

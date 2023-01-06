@@ -56,7 +56,7 @@ CREATE TABLE `movimentacao` (
   `descricao` varchar(45) DEFAULT NULL,
   `valor` double DEFAULT NULL,
   PRIMARY KEY (`idmovimentacao`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `movimentacao` (
 
 LOCK TABLES `movimentacao` WRITE;
 /*!40000 ALTER TABLE `movimentacao` DISABLE KEYS */;
-INSERT INTO `movimentacao` VALUES (1,'2023-01-02','Entrada','TESTE',5),(2,'2023-01-02','Entrada','TESTE 2',40),(3,'2023-01-02','Entrada','TESTE 3',35),(4,'2023-01-02','Entrada','FORMATAÇÃO COMPUTADOR',50),(5,'2023-01-02','Saida','ESCOVA DE DENTE',30);
+INSERT INTO `movimentacao` VALUES (1,'01/01/2023','Entrada','TESTE',5),(2,'06/01/2023','Entrada','TESTE 2',40),(3,'06/01/2023','Entrada','TESTE 3',35),(4,'06/01/2023','Entrada','FORMATAÇÃO COMPUTADOR',50),(5,'06/01/2023','Saida','ESCOVA DE DENTE',30),(6,'06/01/2023','Saida','TESTANDO UPDATE',25),(7,'05/01/2023','Entrada','TESTANDO DATA FORMATADA',10);
 /*!40000 ALTER TABLE `movimentacao` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `movimentacao_caixa` (
 
 LOCK TABLES `movimentacao_caixa` WRITE;
 /*!40000 ALTER TABLE `movimentacao_caixa` DISABLE KEYS */;
-INSERT INTO `movimentacao_caixa` VALUES (1,1),(1,2),(2,3),(2,4),(2,5);
+INSERT INTO `movimentacao_caixa` VALUES (1,1),(1,2),(2,3),(2,4),(2,5),(1,6),(1,7);
 /*!40000 ALTER TABLE `movimentacao_caixa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,4 +113,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-03 11:05:32
+-- Dump completed on 2023-01-06  9:08:25

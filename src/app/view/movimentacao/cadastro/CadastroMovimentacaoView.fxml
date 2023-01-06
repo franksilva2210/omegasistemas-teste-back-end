@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="317.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="414.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox layoutX="131.0" layoutY="32.0" prefHeight="361.0" prefWidth="590.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="131.0" layoutY="32.0" prefHeight="418.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="733.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="733.0">
                <children>
-                  <Label text="Movimentação de Caixa">
+                  <Label text="Movimentação de Caixa:">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
@@ -42,152 +42,133 @@
                      </HBox.margin>
                   </Button>
                </children></HBox>
-            <VBox prefHeight="242.0" prefWidth="550.0">
+            <VBox prefHeight="319.0" prefWidth="550.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="550.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="550.0">
                      <children>
-                        <Label text="Id:">
+                        <VBox prefHeight="66.0" prefWidth="114.0">
+                           <children>
+                              <Label text="Id:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtId" editable="false" prefWidth="149.0" style="-fx-background-color: none; -fx-border-color: #cccccc;" />
+                           </children>
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtId" editable="false" prefWidth="149.0" style="-fx-background-color: none; -fx-border-color: #cccccc;">
-                           <HBox.margin>
-                              <Insets left="53.0" />
-                           </HBox.margin>
-                        </TextField>
+                        </VBox>
                      </children>
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="558.0">
+                  <HBox prefHeight="50.0" prefWidth="550.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="453.0">
-                           <children>
-                              <Label text="Caixa:">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField fx:id="txtCaixa" editable="false" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: none; -fx-border-color: #cccccc;">
-                                 <HBox.margin>
-                                    <Insets left="34.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Button fx:id="bttBuscarCaixa" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="...">
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Hyperlink fx:id="linkLimparFieldCaixa" text="Limpar">
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                              </Hyperlink>
-                           </children>
-                        </HBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="1.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox prefHeight="27.0" prefWidth="200.0">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="255.0">
+                        <VBox prefHeight="50.0" prefWidth="187.0">
                            <children>
                               <Label text="Data:">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font></Label>
-                              <DatePicker fx:id="datePicker" prefHeight="25.0" prefWidth="174.0">
-                                 <HBox.margin>
-                                    <Insets left="38.0" />
-                                 </HBox.margin>
-                              </DatePicker>
+                              <DatePicker fx:id="datePicker" prefHeight="25.0" prefWidth="174.0" />
                            </children>
-                           <HBox.margin>
-                              <Insets left="10.0" top="5.0" />
-                           </HBox.margin>
-                        </HBox>
-                     </children>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="90.0" prefHeight="27.0" prefWidth="200.0">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="377.0">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
-                           <children>
-                              <Label text="Descrição:">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="txtDescricao" prefHeight="25.0" prefWidth="226.0">
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox prefHeight="27.0" prefWidth="558.0">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="342.0">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
+                        </VBox>
+                        <VBox prefHeight="50.0" prefWidth="202.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="55.0" text="Tipo:">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
-                              <ChoiceBox fx:id="choiceTipo" prefWidth="150.0">
-                                 <HBox.margin>
-                                    <Insets left="13.0" />
-                                 </HBox.margin>
-                              </ChoiceBox>
+                              <ChoiceBox fx:id="choiceTipo" prefWidth="150.0" />
                            </children>
-                        </HBox>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="558.0">
+                     <children>
+                        <VBox prefHeight="50.0" prefWidth="260.0">
+                           <children>
+                              <Label text="Caixa:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="277.0">
+                                 <children>
+                                    <TextField fx:id="txtCaixa" editable="false" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: none; -fx-border-color: #cccccc;">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <Button fx:id="bttBuscarCaixa" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="...">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Hyperlink fx:id="linkLimparFieldCaixa" text="Limpar">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Hyperlink>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="1.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="90.0" prefHeight="50.0" prefWidth="550.0">
+                     <children>
+                        <VBox prefHeight="65.0" prefWidth="395.0">
+                           <children>
+                              <Label text="Descrição:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtDescricao" prefHeight="25.0" prefWidth="226.0" />
+                           </children>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </VBox>
                      </children>
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="27.0" prefWidth="200.0">
+                  <HBox prefHeight="50.0" prefWidth="550.0">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="377.0">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
+                        <VBox prefHeight="50.0" prefWidth="204.0">
                            <children>
                               <Label text="Valor:">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtValor" prefHeight="25.0" prefWidth="226.0">
-                                 <HBox.margin>
-                                    <Insets left="34.0" />
-                                 </HBox.margin>
-                              </TextField>
+                              <TextField fx:id="txtValor" prefHeight="25.0" prefWidth="226.0" />
                            </children>
-                        </HBox>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </VBox>
                      </children>
                   </HBox>
                </children>
