@@ -76,7 +76,7 @@
                         <Font size="13.0" />
                      </font>
                   </Hyperlink>
-                  <Hyperlink fx:id="linkOutubro" text="Outubro" textFill="BLUE">
+                  <Hyperlink fx:id="linkOut" text="Outubro" textFill="BLUE">
                      <font>
                         <Font size="13.0" />
                      </font>

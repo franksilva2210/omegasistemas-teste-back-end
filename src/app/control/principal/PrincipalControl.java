@@ -1,11 +1,9 @@
 package app.control.principal;
 
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -24,7 +22,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -37,6 +34,7 @@ public class PrincipalControl implements Initializable {
 	
 	private ObservableList<Integer> opcoesAno = FXCollections.observableArrayList(2022, 2023);
 	private ObservableList<Movimentacao> listMovimentacaoCaixa = FXCollections.observableArrayList();
+	private Integer filtro[] = {0, 0};
 
 	private Caixa caixaAtual = new Caixa();
 	
@@ -50,7 +48,7 @@ public class PrincipalControl implements Initializable {
     @FXML private Hyperlink linkJul;
     @FXML private Hyperlink linkAgo;
     @FXML private Hyperlink linkSet;
-    @FXML private Hyperlink linkOutubro;
+    @FXML private Hyperlink linkOut;
     @FXML private Hyperlink linkNov;
     @FXML private Hyperlink linkDes;
     @FXML private Label lblMes;
@@ -79,83 +77,97 @@ public class PrincipalControl implements Initializable {
 		comboAno.setItems(opcoesAno);
 		comboAno.setOnAction((ActionEvent event) -> {
 			selecionarOpcaoAno();
+			configAnoFiltro();
 		});
 		
 		linkJan.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkJan.getText());
+				configMesFiltro();
 			}
 		});
 		
 		linkFev.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkFev.getText());
+				configMesFiltro();
 			}
 		});
 		
 		linkMar.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkMar.getText());
+				configMesFiltro();
 			}
 		});
 		
 	    linkAbr.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkAbr.getText());
+				configMesFiltro();
 			}
 		});
 	    
 	    linkMai.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkMai.getText());
+				configMesFiltro();
 			}
 		});
 	    
 	    linkJun.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkJun.getText());
+				configMesFiltro();
 			}
 		});
 	    
 	    linkJul.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkJul.getText());
+				configMesFiltro();
 			}
 		});
 	    
 	    linkAgo.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkAgo.getText());
+				configMesFiltro();
 			}
 		});
 	    
 	    linkSet.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkSet.getText());
+				configMesFiltro();
 			}
 		});
 	    
-	    linkOutubro.setOnMouseClicked((MouseEvent mouse) -> {
+	    linkOut.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				lblMes.setText(linkOutubro.getText());
+				lblMes.setText(linkOut.getText());
+				configMesFiltro();
 			}
 		});
 	    
 	    linkNov.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkNov.getText());
+				configMesFiltro();
 			}
 		});
 	    
 	    linkDes.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				lblMes.setText(linkDes.getText());
+				configMesFiltro();
 			}
 		});
 		
 		bttBuscarCaixa.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
 				buscarCaixa();
+				configMesFiltro();
 			}
 		});
 		
@@ -174,7 +186,7 @@ public class PrincipalControl implements Initializable {
 		
 		bttConsultMovs.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				
+				consultarMovimentos();
 			}
 		});
 		
@@ -205,19 +217,11 @@ public class PrincipalControl implements Initializable {
 	}
 	
 	/*BOTAO CONSULTAR MOVIMENTOS*/
-	private void bttConsultarMovimentos() {
-		MovimentacaoDao movDao = new MovimentacaoDao();
-		
-		List<Movimentacao> listMovimentacaoTotalCaixa = movDao.consultAll(caixaAtual.getId());
-		
-		
-	}
-	
-	private void pesquisarMovimentos() {
-		MovimentacaoDao movDao = new MovimentacaoDao();
+	private void consultarMovimentos() {
 		listMovimentacaoCaixa.clear();
-		listMovimentacaoCaixa.addAll(movDao.consultAll(caixaAtual.getId()));
+		listMovimentacaoCaixa.addAll(getListMovimentosComFiltro());
 		tableMovimentos.refresh();
+		showBalancoMes();
 	}
 	
 	private void showBalancoMes() {
@@ -261,5 +265,62 @@ public class PrincipalControl implements Initializable {
 		lblEntradasGeral.setText(String.valueOf(entradas));
 		lblSaidasGeral.setText(String.valueOf(saidas));
 		lblSaldoGeral.setText(String.valueOf(saldoGeral));
+	}
+	
+	private void configMesFiltro() {
+		if(lblMes.getText().equals(linkJan.getText())) {
+			filtro[0] = 1;
+		} else if(lblMes.getText().equals(linkFev.getText())) {
+			filtro[0] = 2;
+		} else if(lblMes.getText().equals(linkMar.getText())) {
+			filtro[0] = 3;
+		} else if(lblMes.getText().equals(linkAbr.getText())) {
+			filtro[0] = 4;
+		} else if(lblMes.getText().equals(linkMai.getText())) {
+			filtro[0] = 5;
+		} else if(lblMes.getText().equals(linkJun.getText())) {
+			filtro[0] = 6;
+		} else if(lblMes.getText().equals(linkJul.getText())) {
+			filtro[0] = 7;
+		} else if(lblMes.getText().equals(linkAgo.getText())) {
+			filtro[0] = 8;
+		} else if(lblMes.getText().equals(linkSet.getText())) {
+			filtro[0] = 9;
+		} else if(lblMes.getText().equals(linkOut.getText())) {
+			filtro[0] = 10;
+		} else if(lblMes.getText().equals(linkNov.getText())) {
+			filtro[0] = 11;
+		} else if(lblMes.getText().equals(linkDes.getText())) {
+			filtro[0] = 12;
+		}
+	}
+	
+	private void configAnoFiltro() {
+		filtro[1] = comboAno.getValue();
+	}
+	
+	private List<Movimentacao> getListMovimentosComFiltro() {
+		MovimentacaoDao movDao = new MovimentacaoDao();
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate dataMovimento = null;
+		
+		List<Movimentacao> listMovimentacaoTotalCaixa = movDao.consultAll(caixaAtual.getId());
+		List<Movimentacao> listMovimentacaoCaixaFiltrada = new ArrayList<Movimentacao>();
+		
+		for(int i = 0; i < listMovimentacaoTotalCaixa.size(); i++) {
+			dataMovimento = LocalDate.parse(listMovimentacaoTotalCaixa.get(i).getData(), dateFormatter);
+			if(varificaDataComFiltro(dataMovimento)) {
+				listMovimentacaoCaixaFiltrada.add(listMovimentacaoTotalCaixa.get(i));
+			}
+		}
+		
+		return listMovimentacaoCaixaFiltrada;
+	}
+	
+	private boolean varificaDataComFiltro(LocalDate dataMovimento) {
+		if(dataMovimento.getMonth().getValue() == filtro[0] && dataMovimento.getYear() == filtro[1])
+			return true;
+		else
+			return false;
 	}
 }
