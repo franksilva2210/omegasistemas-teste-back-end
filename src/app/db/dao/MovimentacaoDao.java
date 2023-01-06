@@ -201,7 +201,53 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 	@Override
 	public void update(Movimentacao ob) {
+		Connection conexao = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
 		
+		String sql = "UPDATE movimentacao " + 
+					 "SET " + 
+					 "data = ?, " + 
+					 "tipo = ?, " + 
+					 "descricao = ?, " + 
+					 "valor = ? " + 
+					 "WHERE idmovimentacao = ?;";
+		
+		String sql2 = "UPDATE movimentacao_caixa " +
+					  "SET " +
+					  "id_caixa = ? "+
+					  "WHERE id_mov = ?;";
+		
+		try {
+			conexao = Conexao.getConnection("controlecaixa");
+			
+			pstmt1 = conexao.prepareStatement(sql);
+			pstmt1.setString(1, ob.getData());
+			pstmt1.setString(2, ob.getTipo());
+			pstmt1.setString(3, ob.getDescricao());
+			pstmt1.setDouble(4, ob.getValor());
+			pstmt1.setInt(5, ob.getId());
+			pstmt1.executeUpdate();
+			
+			pstmt2 = conexao.prepareStatement(sql2);
+			pstmt2.setInt(1, ob.getCaixa().getId());
+			pstmt2.setInt(2, ob.getId());
+			pstmt2.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(pstmt1 != null) 
+					pstmt1.close();
+				if(pstmt2 != null)
+					pstmt2.close();
+				if(conexao != null) 
+					conexao.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
