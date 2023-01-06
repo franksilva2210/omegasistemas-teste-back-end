@@ -3,6 +3,8 @@ package app.control.movimentacao.cadastro;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -109,7 +111,7 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
     	
     	if (BuscarCaixaControl.getCaixaSelected() != null) {
     		movimento.setCaixa(BuscarCaixaControl.getCaixaSelected());
-    		preencheFieldCaixa();
+    		showCaixa();
     	}
     }
     
@@ -202,10 +204,10 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 	@Override
 	protected void showDataScreen() {
 		txtId.setText(String.valueOf(movimento.getId()));
-		txtCaixa.setText(movimento.getCaixa().getDescricao());
-		datePicker.getEditor().setText(movimento.getData());
-		txtDescricao.setText(movimento.getDescricao());
+		showCaixa();
+		showData();
 		choiceTipo.setValue(movimento.getTipo());
+		txtDescricao.setText(movimento.getDescricao());
 		txtValor.setText(String.valueOf(movimento.getValor()));
 	}
 
@@ -303,8 +305,14 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 		}
 	}
 	
-	private void preencheFieldCaixa() {
+	private void showCaixa() {
 		txtCaixa.setText(movimento.getCaixa().getDescricao());
+	}
+	
+	private void showData() {
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate localDate = LocalDate.parse(movimento.getData(), dateFormatter);
+		datePicker.setValue(localDate);
 	}
 	
 	private String getDataConvertida() {
@@ -324,5 +332,4 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 		
 		return dataFormatada;
 	}
-	
 }
