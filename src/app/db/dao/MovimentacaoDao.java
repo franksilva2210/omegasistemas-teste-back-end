@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.model.Caixa;
 import app.model.Movimentacao;
 import app.util.db.Conexao;
 import app.util.db.Dao;
@@ -18,11 +19,16 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 	public List<Movimentacao> consultAll() {
 		Connection conexao = null;
 		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet result = null;
+		ResultSet result2 = null;
 		
 		List<Movimentacao> listMovimentacao = new ArrayList<Movimentacao>();
 		
 		String sql = "SELECT * FROM movimentacao";
+		
+		String sql2 = "SELECT * FROM movimentacao_caixa " + 
+					  "WHERE id_mov = ?";
 		
 		try {
 			conexao = Conexao.getConnection("controlecaixa");
@@ -38,6 +44,16 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 				movimento.setDescricao(result.getString("descricao"));
 				movimento.setTipo(result.getString("tipo"));
 				movimento.setValor(result.getDouble("valor"));
+				
+				pstmt = conexao.prepareStatement(sql2);
+				pstmt.setInt(1, movimento.getId());
+				
+				result2 = pstmt.executeQuery();
+				while(result2.next()) {
+					CaixaDao caixaDao = new CaixaDao();
+					Caixa caixa = caixaDao.consult(result2.getInt("id_caixa"));
+					movimento.setCaixa(caixa);
+				}
 				
 				listMovimentacao.add(movimento);
 			}

@@ -26,17 +26,17 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Novo">
+                  <Button fx:id="bttNovo" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Novo">
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="Buscar">
+                  <Button fx:id="bttBuscar" mnemonicParsing="false" prefWidth="100.0" text="Buscar">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="Remover">
+                  <Button fx:id="bttRemover" mnemonicParsing="false" prefWidth="100.0" text="Remover">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>

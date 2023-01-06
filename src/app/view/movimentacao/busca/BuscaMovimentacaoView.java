@@ -1,15 +1,15 @@
-package app.view.movcaixa.cadastro;
+package app.view.movimentacao.busca;
 
 import java.io.IOException;
 
-import app.control.movcaixa.cadastro.CadastroMovCaixaControl;
+import app.control.movimentacao.busca.BuscaMovimentacaoControl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class CadastroMovCaixaView {
+public class BuscaMovimentacaoView {
 	private static Stage stage;
 	private static Scene scene;
 	private static Parent root;
@@ -19,7 +19,7 @@ public class CadastroMovCaixaView {
 	}
 	
 	public static void setStage(Stage stage) {
-		CadastroMovCaixaView.stage = stage;
+		BuscaMovimentacaoView.stage = stage;
 	}
 	
 	public static Scene getScene() {
@@ -27,7 +27,7 @@ public class CadastroMovCaixaView {
 	}
 	
 	public static void setScene(Scene scene) {
-		CadastroMovCaixaView.scene = scene;
+		BuscaMovimentacaoView.scene = scene;
 	}
 	
 	public static Parent getRoot() {
@@ -35,7 +35,7 @@ public class CadastroMovCaixaView {
 	}
 	
 	public static void setRoot(Parent root) {
-		CadastroMovCaixaView.root = root;
+		BuscaMovimentacaoView.root = root;
 	}
 	
 	//----------|CONSTROI E EXIBE TELA|----------
@@ -58,8 +58,8 @@ public class CadastroMovCaixaView {
 	
 	private static void buildRoot() {
 		FXMLLoader rootFxml = new FXMLLoader();
-		rootFxml.setLocation(CadastroMovCaixaView.class.getResource("CadastroMovCaixaView.fxml"));
-		rootFxml.setController(new CadastroMovCaixaControl());
+		rootFxml.setLocation(BuscaMovimentacaoView.class.getResource("BuscaMovimentacaoView.fxml"));
+		rootFxml.setController(new BuscaMovimentacaoControl());
 		
 		try {
 			root = rootFxml.load();
@@ -74,7 +74,7 @@ public class CadastroMovCaixaView {
 	
 	private static void buildStage(Stage stageOwner) {
 		stage = new Stage();
-		stage.setTitle("Movimentar Caixa");
+		stage.setTitle("Buscar Movimentos de Caixa");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(stageOwner);
 		stage.setScene(scene);

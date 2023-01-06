@@ -57,6 +57,47 @@ public class CaixaDao implements Dao<Caixa> {
 		
 		return listCaixa;
 	}
+	
+	public Caixa consult(int id) {
+		Connection conexao = null;
+		PreparedStatement pstmt = null;
+		ResultSet result = null;
+		
+		Caixa caixa = null;
+		
+		String sql = "SELECT * FROM caixa WHERE idcaixa = ?";
+		
+		try {
+			conexao = Conexao.getConnection("controlecaixa");
+			
+			pstmt = conexao.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			
+			result = pstmt.executeQuery();
+			while(result.next()) {
+				caixa = new Caixa();
+				caixa.setId(result.getInt("idcaixa"));
+				caixa.setDescricao(result.getString("descricao"));
+				caixa.setSaldo(result.getDouble("saldoInicial"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+        	try {
+        		if(result != null)
+        			result.close();
+        		if(pstmt != null)
+        			pstmt.close();
+        		if(conexao != null)
+        			conexao.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        }
+		
+		return caixa;
+	}
 
 	@Override
 	public void save(Caixa ob) {

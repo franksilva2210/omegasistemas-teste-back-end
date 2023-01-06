@@ -1,6 +1,11 @@
 package app.control.principal;
 
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -10,7 +15,7 @@ import app.model.Caixa;
 import app.model.Movimentacao;
 import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.caixa.cadastro.CadastroCaixaView;
-import app.view.movcaixa.cadastro.CadastroMovCaixaView;
+import app.view.movimentacao.cadastro.CadastroMovimentacaoView;
 import app.view.principal.PrincipalView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -161,15 +167,14 @@ public class PrincipalControl implements Initializable {
 		
 		bttMovCaixa.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				CadastroMovCaixaView.buildAndShowScreen(PrincipalView.getStage());
+				CadastroMovimentacaoView.buildAndShowScreen(PrincipalView.getStage());
 				showBalancoGeral();
 			}
 		});
 		
 		bttConsultMovs.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				pesquisarMovimentos();
-				showBalancoMes();
+				
 			}
 		});
 		
@@ -197,6 +202,15 @@ public class PrincipalControl implements Initializable {
 			caixaAtual = BuscarCaixaControl.getCaixaSelected();
 			txtCaixa.setText(caixaAtual.getDescricao());
 		}
+	}
+	
+	/*BOTAO CONSULTAR MOVIMENTOS*/
+	private void bttConsultarMovimentos() {
+		MovimentacaoDao movDao = new MovimentacaoDao();
+		
+		List<Movimentacao> listMovimentacaoTotalCaixa = movDao.consultAll(caixaAtual.getId());
+		
+		
 	}
 	
 	private void pesquisarMovimentos() {

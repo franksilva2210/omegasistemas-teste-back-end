@@ -1,9 +1,13 @@
-package app.control.movcaixa.cadastro;
+package app.control.movimentacao.cadastro;
 
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
+import app.control.movimentacao.busca.BuscaMovimentacaoControl;
 import app.control.msg.info.MensagemInfoControl;
 import app.db.dao.MovimentacaoDao;
 import app.model.Movimentacao;
@@ -11,7 +15,8 @@ import app.util.ScreensRegisterControl;
 import app.util.ValidaField;
 import app.util.db.ModPersistData;
 import app.view.caixa.buscar.BuscarCaixaView;
-import app.view.movcaixa.cadastro.CadastroMovCaixaView;
+import app.view.movimentacao.busca.BuscaMovimentacaoView;
+import app.view.movimentacao.cadastro.CadastroMovimentacaoView;
 import app.view.msg.info.MensagemInfoView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,13 +30,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-public class CadastroMovCaixaControl extends ScreensRegisterControl implements Initializable {
+public class CadastroMovimentacaoControl extends ScreensRegisterControl implements Initializable {
 	
 	final private ObservableList<String> opcoesTipoMov = FXCollections.observableArrayList("Entrada", "Saida");
 	
 	private Movimentacao movimento;
 	private ModPersistData modPersistData;
 	
+	@FXML private Button bttNovo;
+	@FXML private Button bttBuscar;
+	@FXML private Button bttRemover;
 	@FXML private TextField txtId;
 	@FXML private TextField txtCaixa;
 	@FXML private Button bttBuscarCaixa;
@@ -51,6 +59,12 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
     	initProperties();
     	
     	choiceTipo.setItems(opcoesTipoMov);
+    	
+    	bttBuscar.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				buscarMovimento();
+			}
+		});
     	
     	bttBuscarCaixa.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
@@ -72,15 +86,26 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
     	
     	bttCancel.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				CadastroMovCaixaView.getStage().close();
+				CadastroMovimentacaoView.getStage().close();
 			}
 		});
 	}
     
+    /*BOTAO BUSCAR MOVIMENTO*/
+    private void buscarMovimento() {
+    	BuscaMovimentacaoControl.setMovCaixaSelected(null);
+    	BuscaMovimentacaoView.buildAndShowScreen(CadastroMovimentacaoView.getStage());
+    	if(BuscaMovimentacaoControl.getMovCaixaSelected() != null) {
+    		movimento = BuscaMovimentacaoControl.getMovCaixaSelected();
+    		modPersistData = ModPersistData.UPDATE;
+    		showDataScreen();
+    	}
+    }
+    
     /*BOTAO BUSCAR CAIXA*/
     private void bttBuscarCaixa() {
     	BuscarCaixaControl.setCaixaSelected(null);
-    	BuscarCaixaView.buildAndShowScreen(CadastroMovCaixaView.getStage());
+    	BuscarCaixaView.buildAndShowScreen(CadastroMovimentacaoView.getStage());
     	
     	if (BuscarCaixaControl.getCaixaSelected() != null) {
     		movimento.setCaixa(BuscarCaixaControl.getCaixaSelected());
@@ -158,7 +183,7 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 	
 	@Override
 	protected boolean extractFields() {
-		movimento.setData(String.valueOf(datePicker.getValue()));
+		movimento.setData(getDataConvertida());
 		movimento.setDescricao(txtDescricao.getText());
 		movimento.setTipo(choiceTipo.getValue());
 		
@@ -167,7 +192,7 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 		} catch(NumberFormatException e) {
 			movimento.setValor(0.0);
 			MensagemInfoControl.setMsg("Campo: Valor. Digite um numero valido");
-    		MensagemInfoView.loadAndShowStage(CadastroMovCaixaView.getStage());
+    		MensagemInfoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
     		return false;
 		}
 		
@@ -176,11 +201,17 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 
 	@Override
 	protected void showDataScreen() {
-		
+		txtId.setText(String.valueOf(movimento.getId()));
+		txtCaixa.setText(movimento.getCaixa().getDescricao());
+		datePicker.getEditor().setText(movimento.getData());
+		txtDescricao.setText(movimento.getDescricao());
+		choiceTipo.setValue(movimento.getTipo());
+		txtValor.setText(String.valueOf(movimento.getValor()));
 	}
 
 	@Override
 	protected void clearDataScreen() {
+		this.txtId.clear();
 		this.txtCaixa.clear();
 		this.datePicker.getEditor().clear();
 		this.txtDescricao.clear();
@@ -209,7 +240,7 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 		validField.validateControl();
 		if(validField.getError()) {
 			MensagemInfoControl.setMsg("Campo Caixa, invalido");
-    		MensagemInfoView.loadAndShowStage(CadastroMovCaixaView.getStage());
+    		MensagemInfoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
 			return false;
 		} else {
 			return true;
@@ -223,7 +254,7 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 		validField.validateControl();
 		if(validField.getError()) {
 			MensagemInfoControl.setMsg("Campo Data, invalido");
-    		MensagemInfoView.loadAndShowStage(CadastroMovCaixaView.getStage());
+    		MensagemInfoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
 			return false;
 		} else {
 			return true;
@@ -237,7 +268,7 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 		validField.validateControl();
 		if(validField.getError()) {
 			MensagemInfoControl.setMsg("Campo Descrição, invalido");
-    		MensagemInfoView.loadAndShowStage(CadastroMovCaixaView.getStage());
+    		MensagemInfoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
 			return false;
 		} else {
 			return true;
@@ -251,7 +282,7 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 		validField.validateControl();
 		if(validField.getError()) {
 			MensagemInfoControl.setMsg("Campo Tipo, invalido");
-    		MensagemInfoView.loadAndShowStage(CadastroMovCaixaView.getStage());
+    		MensagemInfoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
 			return false;
 		} else {
 			return true;
@@ -265,17 +296,33 @@ public class CadastroMovCaixaControl extends ScreensRegisterControl implements I
 		validField.validateControl();
 		if(validField.getError()) {
 			MensagemInfoControl.setMsg("Campo Valor, invalido");
-    		MensagemInfoView.loadAndShowStage(CadastroMovCaixaView.getStage());
+    		MensagemInfoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
 			return false;
 		} else {
 			return true;
 		}
 	}
 	
-	//UTILITARIOS -----------------------------
-	
 	private void preencheFieldCaixa() {
 		txtCaixa.setText(movimento.getCaixa().getDescricao());
+	}
+	
+	private String getDataConvertida() {
+		String dataFormatada = new String();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		
+		try {
+			date = sdf.parse(datePicker.getValue().toString());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		sdf = new SimpleDateFormat("dd/MM/yyyy");
+		
+		dataFormatada = sdf.format(date);
+		
+		return dataFormatada;
 	}
 	
 }
