@@ -185,7 +185,7 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 	
 	@Override
 	protected boolean extractFields() {
-		movimento.setData(getDataConvertida());
+		extractFieldData();
 		movimento.setDescricao(txtDescricao.getText());
 		movimento.setTipo(choiceTipo.getValue());
 		
@@ -315,7 +315,7 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 		datePicker.setValue(localDate);
 	}
 	
-	private String getDataConvertida() {
+	private void extractFieldData() {
 		String dataFormatada = new String();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = null;
@@ -330,6 +330,6 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 		
 		dataFormatada = sdf.format(date);
 		
-		return dataFormatada;
+		movimento.setData(dataFormatada);
 	}
 }
