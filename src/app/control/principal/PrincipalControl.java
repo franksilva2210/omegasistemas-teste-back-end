@@ -30,6 +30,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 public class PrincipalControl implements Initializable {
 	
@@ -245,6 +246,12 @@ public class PrincipalControl implements Initializable {
 		
 		lblEntradasMes.setText(String.valueOf(formatador.format(entradas)));
 		lblSaidasMes.setText(String.valueOf(formatador.format(saidas)));
+		
+		if(saldoGeral < 0)
+			lblSaldoMes.setTextFill(Color.RED);
+		else
+			lblSaldoMes.setTextFill(Color.BLACK);
+			
 		lblSaldoMes.setText(String.valueOf(formatador.format(saldoGeral)));
 	}
 	
@@ -270,6 +277,12 @@ public class PrincipalControl implements Initializable {
 		
 		lblEntradasGeral.setText(String.valueOf(formatador.format(entradas)));
 		lblSaidasGeral.setText(String.valueOf(formatador.format(saidas)));
+		
+		if(saldoGeral < 0)
+			lblSaldoMes.setTextFill(Color.RED);
+		else
+			lblSaldoMes.setTextFill(Color.BLACK);
+		
 		lblSaldoGeral.setText(String.valueOf(formatador.format(saldoGeral)));
 	}
 	
