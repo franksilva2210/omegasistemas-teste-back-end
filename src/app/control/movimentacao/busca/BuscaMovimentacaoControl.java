@@ -41,6 +41,11 @@ public class BuscaMovimentacaoControl implements Initializable {
 		colData.setCellValueFactory(new PropertyValueFactory<Movimentacao, String>("data"));
 		
 		tableMovimentos.setItems(listMovimentacaoCaixa);
+		tableMovimentos.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 2) {
+				bttSelecionar();
+			}
+		});
 		
 		bttSelecionar.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {

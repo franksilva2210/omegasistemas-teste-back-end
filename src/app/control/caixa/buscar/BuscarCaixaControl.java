@@ -37,6 +37,11 @@ public class BuscarCaixaControl implements Initializable {
 		colValInicial.setCellValueFactory(new PropertyValueFactory<Caixa, Double>("saldo"));
 		
 		tabCaixas.setItems(listCaixas);
+		tabCaixas.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 2) {
+				selection();
+			}
+		});
 		
 		bttSelecionar.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
