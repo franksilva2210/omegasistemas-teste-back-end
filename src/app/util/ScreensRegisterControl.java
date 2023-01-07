@@ -10,7 +10,7 @@ public abstract class ScreensRegisterControl {
 	
 	abstract protected boolean processDataObject();
 	
-	abstract protected void processDataPersistence();
+	abstract protected boolean processDataPersistence();
 	
 	abstract protected boolean extractFields();
 	

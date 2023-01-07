@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import app.control.caixa.buscar.BuscarCaixaControl;
 import app.control.movimentacao.busca.BuscaMovimentacaoControl;
+import app.control.msg.confirm.MensagemConfirmacaoControl;
 import app.control.msg.info.MensagemInfoControl;
 import app.db.dao.MovimentacaoDao;
 import app.model.Movimentacao;
@@ -19,6 +20,7 @@ import app.util.db.ModPersistData;
 import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.movimentacao.busca.BuscaMovimentacaoView;
 import app.view.movimentacao.cadastro.CadastroMovimentacaoView;
+import app.view.msg.confirm.MensagemConfirmacaoView;
 import app.view.msg.info.MensagemInfoView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -120,7 +122,18 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
     
     /*BOTAO REMOVER*/
     private void bttRemover() {
-    	
+    	if(modPersistData == ModPersistData.UPDATE && movimento.getId() != 0) {
+    		MensagemConfirmacaoControl.setConfirmOperation(false);
+    		MensagemConfirmacaoControl.setMsgConfirm("Deseja realmente remover este movimento?");
+    		MensagemConfirmacaoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
+    		if(MensagemConfirmacaoControl.getConfirmOperation()) {
+    			modPersistData = ModPersistData.DELET;
+    			if(processDataPersistence()) {
+    				resetProperties();
+    				clearDataScreen();
+    			}
+    		}
+    	}
     }
     
     /*BOTAO BUSCAR CAIXA*/
@@ -165,24 +178,39 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 	}
 
 	@Override
-	protected void processDataPersistence() {
+	protected boolean processDataPersistence() {
 		MovimentacaoDao movimentacaoDao = new MovimentacaoDao();
 		
 		switch(modPersistData) {
 			case INSERT:
 				movimentacaoDao.save(movimento);
-				break;
+				if(movimentacaoDao.getError()) {
+					MensagemInfoControl.setMsg(movimentacaoDao.getMsgError());
+					MensagemInfoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
+					return false;
+				} else
+					return true;
 			
 			case UPDATE:
 				movimentacaoDao.update(movimento);
-				break;
+				if(movimentacaoDao.getError()) {
+					MensagemInfoControl.setMsg(movimentacaoDao.getMsgError());
+					MensagemInfoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
+					return false;
+				} else
+					return true;
 				
 			case DELET:
 				movimentacaoDao.delete(movimento);
-				break;
+				if(movimentacaoDao.getError()) {
+					MensagemInfoControl.setMsg(movimentacaoDao.getMsgError());
+					MensagemInfoView.loadAndShowStage(CadastroMovimentacaoView.getStage());
+					return false;
+				} else
+					return true;
 				
 			default:
-				break;
+				return false;
 		}
 	}
 	

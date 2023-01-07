@@ -132,24 +132,24 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	}
 
 	@Override
-	protected void processDataPersistence() {
+	protected boolean processDataPersistence() {
 		CaixaDao caixaDao = new CaixaDao();
 		
 		switch(modPersistData) {
 			case INSERT:
 				caixaDao.save(caixaAtual);
-				break;
+				return true;
 			
 			case UPDATE:
 				caixaDao.update(caixaAtual);
-				break;
+				return true;
 				
 			case DELET:
 				caixaDao.delete(caixaAtual);
-				break;
+				return true;
 				
 			default:
-				break;
+				return false;
 		}
 	}
 	

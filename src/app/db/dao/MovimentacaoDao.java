@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,25 @@ import app.util.db.Conexao;
 import app.util.db.Dao;
 
 public class MovimentacaoDao implements Dao<Movimentacao> {
+
+	private String msgError;
+	private Boolean error;
+	
+	public String getMsgError() {
+		return msgError;
+	}
+
+	public void setMsgError(String msgError) {
+		this.msgError = msgError;
+	}
+
+	public Boolean getError() {
+		return error;
+	}
+
+	public void setError(Boolean error) {
+		this.error = error;
+	}
 
 	@Override
 	public List<Movimentacao> consultAll() {
@@ -58,8 +78,15 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 				listMovimentacao.add(movimento);
 			}
 			
+			error = false;
+			msgError = "";
+			
 		} catch (SQLException e) {
+			
+			error = true;
+			msgError = "Erro na consulta ao banco de dados";
 			e.printStackTrace();
+			
 		} finally {
 			try {
 				if(result != null)  
@@ -116,8 +143,15 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 				}
 			}
 			
+			error = false;
+			msgError = "";
+			
 		} catch (SQLException e) {
+			
+			error = true;
+			msgError = "Erro na consulta ao banco de dados";
 			e.printStackTrace();
+		
 		} finally {
 			try {
 				if(result1 != null)  
@@ -181,8 +215,15 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 				conexao.rollback();
 			}
 			
+			error = false;
+			msgError = "";
+			
 		} catch (SQLException e) {
+			
+			error = true;
+			msgError = "Erro na atualizacao ao banco de dados";
 			e.printStackTrace();
+		
 		} finally {
 			try {
 				if(result != null)  
@@ -234,8 +275,15 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 			pstmt2.setInt(2, ob.getId());
 			pstmt2.executeUpdate();
 			
+			error = false;
+			msgError = "";
+			
 		} catch (SQLException e) {
+			
+			error = true;
+			msgError = "Erro na atualizao ao banco de dados";
 			e.printStackTrace();
+			
 		} finally {
 			try {
 				if(pstmt1 != null) 
@@ -252,7 +300,44 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 
 	@Override
 	public void delete(Movimentacao ob) {
+		Connection conexao = null;
+		PreparedStatement pstmt = null;
 		
+		String sql = "DELETE FROM movimentacao " + 
+					 "WHERE idmovimentacao = ?";
+		
+		try {
+			conexao = Conexao.getConnection("controlecaixa");
+			
+			pstmt = conexao.prepareStatement(sql);
+			pstmt.setInt(1, ob.getId());
+			pstmt.executeUpdate();
+			
+			error = false;
+			msgError = "";
+			
+		} catch (SQLIntegrityConstraintViolationException e) {
+			
+			error = true;
+			msgError = "Este registro possui vinculo";
+			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			
+			error = true;
+			msgError = "Erro na atualizao ao banco de dados";
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(pstmt != null) 
+					pstmt.close();
+				if(conexao != null) 
+					conexao.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
