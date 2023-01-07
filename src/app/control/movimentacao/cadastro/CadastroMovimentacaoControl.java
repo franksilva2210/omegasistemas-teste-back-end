@@ -60,13 +60,26 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 	public void initialize(URL arg0, ResourceBundle arg1) {
     	initProperties();
     	
-    	choiceTipo.setItems(opcoesTipoMov);
+    	bttNovo.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				resetProperties();
+				clearDataScreen();
+			}
+		});
     	
     	bttBuscar.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
-				buscarMovimento();
+				bttBuscarMovimento();
 			}
 		});
+    	
+    	bttRemover.setOnMouseClicked((MouseEvent mouse) -> {
+			if(mouse.getClickCount() == 1) {
+				bttRemover();
+			}
+		});
+    	
+    	choiceTipo.setItems(opcoesTipoMov);
     	
     	bttBuscarCaixa.setOnMouseClicked((MouseEvent mouse) -> {
 			if(mouse.getClickCount() == 1) {
@@ -94,14 +107,20 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 	}
     
     /*BOTAO BUSCAR MOVIMENTO*/
-    private void buscarMovimento() {
+    private void bttBuscarMovimento() {
     	BuscaMovimentacaoControl.setMovCaixaSelected(null);
     	BuscaMovimentacaoView.buildAndShowScreen(CadastroMovimentacaoView.getStage());
     	if(BuscaMovimentacaoControl.getMovCaixaSelected() != null) {
     		movimento = BuscaMovimentacaoControl.getMovCaixaSelected();
     		modPersistData = ModPersistData.UPDATE;
+    		clearDataScreen();
     		showDataScreen();
     	}
+    }
+    
+    /*BOTAO REMOVER*/
+    private void bttRemover() {
+    	
     }
     
     /*BOTAO BUSCAR CAIXA*/
@@ -111,7 +130,7 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
     	
     	if (BuscarCaixaControl.getCaixaSelected() != null) {
     		movimento.setCaixa(BuscarCaixaControl.getCaixaSelected());
-    		showCaixa();
+    		showFieldCaixa();
     	}
     }
     
@@ -169,13 +188,13 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 	
 	@Override
 	protected boolean validateFields() {
-		if(!validaFieldCaixa())
-			return false;
-		else if(!validaFieldData())
-			return false;
-		else if(!validaFieldDescricao())
+		if(!validaFieldData())
 			return false;
 		else if(!validaFieldTipo())
+			return false;
+		else if(!validaFieldCaixa())
+			return false;
+		else if(!validaFieldDescricao())
 			return false;
 		else if(!validaFieldValor())
 			return false;
@@ -204,8 +223,8 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 	@Override
 	protected void showDataScreen() {
 		txtId.setText(String.valueOf(movimento.getId()));
-		showCaixa();
-		showData();
+		showFieldCaixa();
+		showFieldData();
 		choiceTipo.setValue(movimento.getTipo());
 		txtDescricao.setText(movimento.getDescricao());
 		txtValor.setText(String.valueOf(movimento.getValor()));
@@ -305,14 +324,15 @@ public class CadastroMovimentacaoControl extends ScreensRegisterControl implemen
 		}
 	}
 	
-	private void showCaixa() {
+	private void showFieldCaixa() {
 		txtCaixa.setText(movimento.getCaixa().getDescricao());
 	}
 	
-	private void showData() {
+	private void showFieldData() {
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate localDate = LocalDate.parse(movimento.getData(), dateFormatter);
 		datePicker.setValue(localDate);
+		datePicker.getEditor().setText(movimento.getData());
 	}
 	
 	private void extractFieldData() {
