@@ -55,6 +55,7 @@ public class MensagemInfoView {
 		
 		stage = new Stage();
 		stage.setTitle("Mensagem Informativa");
+		stage.setResizable(false);
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(stageOwner);
 		stage.setScene(scene);

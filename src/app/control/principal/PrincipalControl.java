@@ -1,6 +1,7 @@
 package app.control.principal;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -181,6 +182,7 @@ public class PrincipalControl implements Initializable {
 			if(mouse.getClickCount() == 1) {
 				CadastroMovimentacaoView.buildAndShowScreen(PrincipalView.getStage());
 				showBalancoGeral();
+				consultarMovimentos();
 			}
 		});
 		
@@ -239,9 +241,11 @@ public class PrincipalControl implements Initializable {
 		
 		saldoGeral = entradas - saidas;
 		
-		lblEntradasMes.setText(String.valueOf(entradas));
-		lblSaidasMes.setText(String.valueOf(saidas));
-		lblSaldoMes.setText(String.valueOf(saldoGeral));
+		DecimalFormat formatador = new DecimalFormat("#.##");
+		
+		lblEntradasMes.setText(String.valueOf(formatador.format(entradas)));
+		lblSaidasMes.setText(String.valueOf(formatador.format(saidas)));
+		lblSaldoMes.setText(String.valueOf(formatador.format(saldoGeral)));
 	}
 	
 	private void showBalancoGeral() {
@@ -262,9 +266,11 @@ public class PrincipalControl implements Initializable {
 		
 		saldoGeral = entradas - saidas;
 		
-		lblEntradasGeral.setText(String.valueOf(entradas));
-		lblSaidasGeral.setText(String.valueOf(saidas));
-		lblSaldoGeral.setText(String.valueOf(saldoGeral));
+		DecimalFormat formatador = new DecimalFormat("#.##");
+		
+		lblEntradasGeral.setText(String.valueOf(formatador.format(entradas)));
+		lblSaidasGeral.setText(String.valueOf(formatador.format(saidas)));
+		lblSaldoGeral.setText(String.valueOf(formatador.format(saldoGeral)));
 	}
 	
 	private void configMesFiltro() {

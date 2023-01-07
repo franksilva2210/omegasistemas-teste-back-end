@@ -76,6 +76,7 @@ public class CadastroCaixaView {
 	private static void buildStage(Stage stageOwner) {
 		stage = new Stage();
 		stage.setTitle("Cadastro de Caixa");
+		stage.setResizable(false);
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(stageOwner);
 		stage.setScene(scene);

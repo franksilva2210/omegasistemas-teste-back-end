@@ -75,6 +75,7 @@ public class CadastroMovimentacaoView {
 	private static void buildStage(Stage stageOwner) {
 		stage = new Stage();
 		stage.setTitle("Movimento de Caixa");
+		stage.setResizable(false);
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(stageOwner);
 		stage.setScene(scene);

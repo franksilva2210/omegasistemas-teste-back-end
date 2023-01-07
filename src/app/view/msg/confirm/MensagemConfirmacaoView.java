@@ -54,6 +54,7 @@ public class MensagemConfirmacaoView {
 		
 		stage = new Stage();
 		stage.setTitle("Mensagem Confirmação");
+		stage.setResizable(false);
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.initOwner(stageOwner);
 		stage.setScene(scene);

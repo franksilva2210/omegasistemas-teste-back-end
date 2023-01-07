@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="169.0" prefWidth="260.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane prefHeight="169.0" prefWidth="345.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="80.0" layoutY="-15.0" prefHeight="185.0" prefWidth="260.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -18,7 +17,7 @@
             </HBox>
             <HBox alignment="CENTER">
                <children>
-                  <Button fx:id="bttOk" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="OK" />
+                  <Button fx:id="bttOk" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="OK" />
                </children>
             </HBox>
          </children>
