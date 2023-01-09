@@ -108,9 +108,10 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 			MensagemConfirmacaoView.loadAndShowStage(CadastroCaixaView.getStage());
 			if(MensagemConfirmacaoControl.getConfirmOperation()) {
 				modPersistData = ModPersistData.DELET;
-				processDataPersistence();
-				clearDataScreen();
-				resetProperties();
+				if(processDataPersistence()) {
+					clearDataScreen();
+					resetProperties();
+				}
 			}
 		}
 	}
@@ -138,14 +139,29 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 		switch(modPersistData) {
 			case INSERT:
 				caixaDao.save(caixaAtual);
+				if(caixaDao.getError()) {
+					MensagemInfoControl.setMsg(caixaDao.getMsgError());
+					MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
+					return false;
+				}
 				return true;
 			
 			case UPDATE:
 				caixaDao.update(caixaAtual);
+				if(caixaDao.getError()) {
+					MensagemInfoControl.setMsg(caixaDao.getMsgError());
+					MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
+					return false;
+				}
 				return true;
 				
 			case DELET:
 				caixaDao.delete(caixaAtual);
+				if(caixaDao.getError()) {
+					MensagemInfoControl.setMsg(caixaDao.getMsgError());
+					MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
+					return false;
+				}
 				return true;
 				
 			default:

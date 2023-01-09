@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,25 @@ import app.util.db.Conexao;
 import app.util.db.Dao;
 
 public class CaixaDao implements Dao<Caixa> {
+
+	private String msgError;
+	private Boolean error;
+	
+	public String getMsgError() {
+		return msgError;
+	}
+
+	public void setMsgError(String msgError) {
+		this.msgError = msgError;
+	}
+
+	public Boolean getError() {
+		return error;
+	}
+
+	public void setError(Boolean error) {
+		this.error = error;
+	}
 
 	@Override
 	public List<Caixa> consultAll() {
@@ -40,8 +60,15 @@ public class CaixaDao implements Dao<Caixa> {
 				listCaixa.add(caixa);
 			}
 			
+			error = false;
+			msgError = "";
+			
 		} catch (SQLException e) {
+			
+			error = true;
+			msgError = "Erro na consulta ao banco de dados!";
 			e.printStackTrace();
+			
 		} finally {
 			try {
 				if(conexao != null)
@@ -81,8 +108,15 @@ public class CaixaDao implements Dao<Caixa> {
 				caixa.setSaldo(result.getDouble("saldoInicial"));
 			}
 			
+			error = false;
+			msgError = "";
+			
 		} catch (SQLException e) {
+			
+			error = true;
+			msgError = "Erro na consulta ao banco de dados";
 			e.printStackTrace();
+			
 		} finally {
         	try {
         		if(result != null)
@@ -116,8 +150,15 @@ public class CaixaDao implements Dao<Caixa> {
 			pstmt.setDouble(2, ob.getSaldo());
 			pstmt.execute();
 			
+			error = false;
+			msgError = "";
+			
 		} catch (SQLException e) {
+		
+			error = true;
+			msgError = "Erro na insercao de registro ao banco de dados";
 			e.printStackTrace();
+		
 		} finally {
         	try {
         		if(pstmt != null)
@@ -149,7 +190,13 @@ public class CaixaDao implements Dao<Caixa> {
 			pstmt.setInt(3, ob.getId());
 			
 			pstmt.executeUpdate();
+			
+			error = false;
+			msgError = "";
+			
 		} catch (SQLException e) {
+			error = true;
+			msgError = "Erro na atualizacao de registro ao banco de dados!";
 			e.printStackTrace();
 		} finally {
         	try {
@@ -178,8 +225,21 @@ public class CaixaDao implements Dao<Caixa> {
 			pstmt.setInt(1, ob.getId());
 			pstmt.executeUpdate();
 			
-		} catch (SQLException e) {
+			error = false;
+			msgError = "";
+			
+		} catch (SQLIntegrityConstraintViolationException e) {
+			
+			error = true;
+			msgError = "Este registro ja possui vinculo com outros";
 			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			
+			error = true;
+			msgError = "Erro na atualizacao de registro ao banco de dados";
+			e.printStackTrace();
+		
 		} finally {
 			try {
         		if(conexao != null)

@@ -339,5 +339,4 @@ public class MovimentacaoDao implements Dao<Movimentacao> {
 			}
 		}
 	}
-
 }
