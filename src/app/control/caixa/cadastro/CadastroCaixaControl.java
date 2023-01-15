@@ -118,12 +118,12 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 
 	@Override
 	protected boolean processDataInterface() {
-		if(validateFields()) {
-			extractFields();
-			return true;
-		} else {
+		if(!validateFields())
 			return false;
-		}
+		else if(!extractFields())
+			return false;
+		else
+			return true;
 	}
 
 	@Override
@@ -171,9 +171,11 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 	
 	@Override
 	protected boolean validateFields() {
-		if(!validateFieldDescricao() || !validateFieldValInicial()) {
+		if(!validateFieldDescricao())
 			return false;
-		} else 
+		else if(!validateFieldValInicial())
+			return false;
+		else 
 			return true;
 	}
 	
