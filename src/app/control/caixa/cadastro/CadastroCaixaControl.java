@@ -15,7 +15,6 @@ import app.view.caixa.buscar.BuscarCaixaView;
 import app.view.caixa.cadastro.CadastroCaixaView;
 import app.view.msg.confirm.MensagemConfirmacaoView;
 import app.view.msg.info.MensagemInfoView;
-import app.view.principal.PrincipalView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -226,7 +225,7 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 		validField.validateControl();
 		if(validField.getError()) {
 			MensagemInfoControl.setMsg("Campo: Descricao, Invalido!");
-			MensagemInfoView.loadAndShowStage(PrincipalView.getStage());
+			MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
 			return false;
 		} else {
 			return true;
@@ -240,7 +239,7 @@ public class CadastroCaixaControl extends ScreensRegisterControl implements Init
 		validField.validateControl();
 		if(validField.getError()) {
 			MensagemInfoControl.setMsg("Campo: Valor Inicial, Invalido!");
-			MensagemInfoView.loadAndShowStage(PrincipalView.getStage());
+			MensagemInfoView.loadAndShowStage(CadastroCaixaView.getStage());
 			return false;
 		} else {
 			return true;
